@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Markas Komando Orbit - Media Pembelajaran Interaktif IPAS</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka, Baloo 2 & Nunito for Super Mario / Playful Cartoon Edutainment look -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --font-title: 'Baloo 2', 'Fredoka', cursive, sans-serif;
+            --font-body: 'Nunito', sans-serif;
+            --mario-sky: #4F46E5;
+            --mario-blue: #2563EB;
+            --mario-yellow: #FACC15;
+            --mario-orange: #F97316;
+            --mario-red: #EF4444;
+            --mario-green: #22C55E;
+            --card-cream: #FFFDF7;
+        }
+        body {
+            font-family: var(--font-body);
+            background-color: #1e1b4b;
+            color: #1e293b;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        h1, h2, h3, .font-game {
+            font-family: var(--font-title);
+        }
+        
+        /* Vibrant Super Mario Galaxy / Sky Cartoon Background */
+        .space-bg {
+            background: linear-gradient(180deg, #1E1B4B 0%, #312E81 35%, #2563EB 75%, #38BDF8 100%);
+            position: relative;
+        }
+        .stars-overlay {
+            background-image: 
+                radial-gradient(2.5px 2.5px at 25px 35px, #FFF, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 65px 85px, #FEF08A, rgba(0,0,0,0)),
+                radial-gradient(3px 3px at 120px 45px, #FFF, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 180px 140px, #BAE6FD, rgba(0,0,0,0)),
+                radial-gradient(2.5px 2.5px at 240px 90px, #FDE047, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 260px 260px;
+            animation: twinkle 14s linear infinite;
+            opacity: 0.85;
+        }
+        @keyframes twinkle {
+            from { background-position: 0 0; }
+            to { background-position: -260px 260px; }
+        }
+
+        /* Mario Bottom Brick & Pipe Ground Decoration for Lobby/Splash */
+        .mario-ground-strip {
+            background: repeating-linear-gradient(
+                90deg,
+                #B45309 0px,
+                #B45309 44px,
+                #78350F 44px,
+                #78350F 48px
+            );
+            border-top: 8px solid #22C55E;
+            box-shadow: inset 0 6px 0 #D97706;
+        }
+
+        /* Cartoon Card Style (Bright Cream/White with Bold 3D Border) */
+        .cartoon-card {
+            background: #FFFDF7;
+            border: 4px solid #1E293B;
+            box-shadow: 0 10px 0 #1E293B, 0 18px 30px rgba(0, 0, 0, 0.35);
+            color: #1E293B;
+        }
+        .cartoon-panel {
+            background: #F8FAFC;
+            border: 3px solid #CBD5E1;
+            box-shadow: 0 5px 0 #CBD5E1;
+        }
+        .cartoon-panel-amber {
+            background: #FEF9C3;
+            border: 3px solid #F59E0B;
+            box-shadow: 0 5px 0 #D97706;
+        }
+        .cartoon-panel-blue {
+            background: #EFF6FF;
+            border: 3px solid #3B82F6;
+            box-shadow: 0 5px 0 #2563EB;
+        }
+
+        /* Super Mario [?] Block Styling with Corner Rivets */
+        .mario-q-block {
+            background: linear-gradient(135deg, #FDE047 0%, #FACC15 55%, #EAB308 100%);
+            border: 4px solid #78350F;
+            box-shadow: inset -4px -4px 0 #CA8A04, inset 4px 4px 0 #FEF08A, 0 6px 0 #78350F;
+            position: relative;
+        }
+        .mario-q-block::before, .mario-q-block::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #78350F;
+            border-radius: 50%;
+            top: 5px;
+        }
+        .mario-q-block::before { left: 5px; }
+        .mario-q-block::after { right: 5px; }
+
+        /* Floating & Bounce Animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(3deg); }
+        }
+        @keyframes pulseBlock {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-8px) scale(1.05); }
+        }
+        .animate-float {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+        .quiz-block-icon {
+            animation: pulseBlock 1.8s infinite ease-in-out;
+        }
+
+        /* Game Buttons 3D Super Mario Arcade Style */
+        .btn-arcade {
+            transition: all 0.12s ease;
+            border: 3px solid #1E293B;
+            box-shadow: 0 6px 0 #1E293B;
+            position: relative;
+        }
+        .btn-arcade:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #1E293B;
+        }
+        .btn-arcade:active {
+            transform: translateY(5px);
+            box-shadow: 0 1px 0 #1E293B;
+        }
+
+        /* Title 3D Pop Text */
+        .title-3d {
+            color: #FACC15;
+            -webkit-text-stroke: 2.5px #1E293B;
+            text-shadow: 0 5px 0 #B45309, 0 8px 0 #1E293B;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E2E8F0;
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #F59E0B;
+            border-radius: 6px;
+            border: 2px solid #E2E8F0;
+        }
+
+        /* Print Rapor Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printableArea, #printableArea * {
+                visibility: visible;
+            }
+            #printableArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white !important;
+                color: black !important;
+                box-shadow: none !important;
+                border: 2px solid #000 !important;
+                padding: 15px !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="space-bg min-h-screen flex flex-col justify-between relative">
+    <!-- Starfield Overlay -->
+    <div class="stars-overlay fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Decorative Floating Clouds & Mario [?] Blocks in Background -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <!-- Floating Mario [?] Block Left -->
+        <div class="hidden lg:flex absolute top-14 left-10 w-16 h-16 rounded-xl items-center justify-center font-game text-4xl font-extrabold text-amber-950 mario-q-block quiz-block-icon">?</div>
+        <!-- Floating Mario Brick + [?] Block Right -->
+        <div class="hidden lg:flex absolute top-20 right-12 gap-1 animate-float">
+            <div class="w-12 h-12 bg-amber-700 border-4 border-slate-900 rounded-lg shadow-md flex items-center justify-center text-amber-300 font-bold">🧱</div>
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center font-game text-2xl font-extrabold text-amber-950 mario-q-block">?</div>
+            <div class="w-12 h-12 bg-amber-700 border-4 border-slate-900 rounded-lg shadow-md flex items-center justify-center text-amber-300 font-bold">🧱</div>
+        </div>
+        <!-- Ringed Planet Bottom Left -->
+        <div class="hidden md:flex absolute bottom-20 left-10 w-24 h-24 rounded-full bg-gradient-to-br from-amber-300 via-orange-500 to-rose-600 border-4 border-slate-900 shadow-xl animate-float items-center justify-center">
+            <div class="w-36 h-7 border-4 border-yellow-200 rounded-full transform -rotate-12"></div>
+        </div>
+        <!-- Bottom Mario Ground Strip -->
+        <div class="absolute bottom-0 left-0 right-0 h-7 mario-ground-strip"></div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- 1. HALAMAN PEMBUKA / SPLASH SCREEN                                -->
+    <!-- ================================================================= -->
+    <section id="splashScreen" class="relative z-10 min-h-screen flex flex-col items-center justify-center p-4 md:p-8 pb-12">
+        <div class="max-w-4xl w-full cartoon-card rounded-3xl p-6 md:p-9 text-center relative overflow-hidden">
+            
+            <!-- Top Decorative Mario Banner Bar -->
+            <div class="bg-gradient-to-r from-red-500 via-amber-400 to-emerald-500 h-3 -mx-6 -mt-6 md:-mx-9 md:-mt-9 mb-6 border-b-4 border-slate-900"></div>
+
+            <!-- Logos Header: Logo Pemkab Wonogiri & Logo Resmi PGRI -->
+            <div class="flex items-center justify-center gap-5 md:gap-10 mb-5">
+                <!-- SVG Logo Pemkab Wonogiri -->
+                <div class="flex flex-col items-center group">
+                    <div class="w-24 h-28 md:w-28 md:h-32 bg-amber-50 p-2 rounded-2xl border-4 border-slate-800 shadow-[0_5px_0_#1e293b] flex items-center justify-center transition-transform group-hover:scale-105">
+                        <svg viewBox="0 0 200 230" class="w-full h-full drop-shadow">
+                            <path d="M15,10 H185 V125 C185,175 145,205 100,222 C55,205 15,175 15,125 Z" fill="#FFED00" stroke="#000000" stroke-width="8"/>
+                            <path d="M21,16 H179 V125 C179,170 142,198 100,214 C58,198 21,170 21,125 Z" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+                            <polygon points="100,32 45,70 65,142 100,142" fill="#E31E24" stroke="#000" stroke-width="3"/>
+                            <polygon points="100,32 155,70 135,142 100,142" fill="#FFFFFF" stroke="#000" stroke-width="3"/>
+                            <circle cx="100" cy="98" r="32" fill="#008A3E" stroke="#000" stroke-width="2.5"/>
+                            <polygon points="100,38 104,50 116,50 106,57 110,69 100,62 90,69 94,57 84,50 96,50" fill="#FFED00" stroke="#000" stroke-width="2"/>
+                            <circle cx="100" cy="95" r="14" fill="#00529B" stroke="#FFED00" stroke-width="3" stroke-dasharray="4,2"/>
+                            <polygon points="88,95 100,85 112,95" fill="#FFFFFF" stroke="#000" stroke-width="1.5"/>
+                            <path d="M88,95 Q100,102 112,95" fill="#E31E24" stroke="#000" stroke-width="1.5"/>
+                            <path d="M72,120 C58,100 65,75 85,68" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-dasharray="4,6"/>
+                            <path d="M128,120 C142,100 135,75 115,68" fill="none" stroke="#FFED00" stroke-width="6" stroke-linecap="round" stroke-dasharray="4,6"/>
+                            <ellipse cx="100" cy="122" rx="6" ry="10" fill="#FFED00" stroke="#000" stroke-width="2"/>
+                            <path d="M88,136 H112 L106,142 H94 Z" fill="#E31E24" stroke="#000" stroke-width="1.5"/>
+                            <path d="M40,165 C55,180 145,180 160,165 L168,182 C145,198 55,198 32,182 Z" fill="#FFFFFF" stroke="#000" stroke-width="3"/>
+                            <path d="M52,155 C75,162 125,162 148,155 L152,172 C125,179 75,179 48,172 Z" fill="#E31E24" stroke="#000" stroke-width="3"/>
+                            <text x="100" y="168" font-family="Arial" font-weight="900" font-size="13" fill="#000000" text-anchor="middle" letter-spacing="1.5">WONOGIRI</text>
+                            <text x="100" y="184" font-family="Arial" font-weight="700" font-size="6.5" fill="#000000" text-anchor="middle">SABDA SAKTI NUGRAHANING PRAJA</text>
+                        </svg>
+                    </div>
+                    <span class="text-xs font-extrabold text-slate-800 bg-yellow-300 px-2.5 py-0.5 rounded-full border-2 border-slate-800 mt-2">PEMKAB WONOGIRI</span>
+                </div>
+
+                <!-- Badge Tengah Mario [?] & Astronot -->
+                <div class="hidden sm:flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-2xl mario-q-block flex items-center justify-center text-3xl text-amber-950 font-game font-extrabold">
+                        ?
+                    </div>
+                    <span class="text-[11px] uppercase tracking-wider text-white bg-indigo-600 px-2.5 py-0.5 rounded-full border-2 border-slate-900 mt-2 font-extrabold">IPAS KELAS 6 SD</span>
+                </div>
+
+                <!-- SVG Logo Resmi PGRI -->
+                <div class="flex flex-col items-center group">
+                    <div class="w-24 h-28 md:w-28 md:h-32 bg-red-50 p-2 rounded-2xl border-4 border-slate-800 shadow-[0_5px_0_#1e293b] flex items-center justify-center transition-transform group-hover:scale-105">
+                        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow">
+                            <circle cx="100" cy="100" r="92" fill="#D91E18" stroke="#FFFFFF" stroke-width="4"/>
+                            <circle cx="100" cy="100" r="87" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+                            <circle cx="100" cy="100" r="60" fill="#008C45" stroke="#FFFFFF" stroke-width="4"/>
+                            <rect x="54" y="68" width="14" height="62" rx="3" fill="#FFFFFF" stroke="#000" stroke-width="2"/>
+                            <line x1="58" y1="73" x2="58" y2="125" stroke="#000" stroke-width="1.5"/>
+                            <line x1="64" y1="73" x2="64" y2="125" stroke="#000" stroke-width="1.5"/>
+                            <rect x="132" y="68" width="14" height="62" rx="3" fill="#FFFFFF" stroke="#000" stroke-width="2"/>
+                            <line x1="136" y1="73" x2="136" y2="125" stroke="#000" stroke-width="1.5"/>
+                            <line x1="142" y1="73" x2="142" y2="125" stroke="#000" stroke-width="1.5"/>
+                            <rect x="70" y="108" width="60" height="10" rx="3" fill="#FFFFFF" stroke="#000" stroke-width="2"/>
+                            <rect x="70" y="120" width="60" height="10" rx="3" fill="#FFFFFF" stroke="#000" stroke-width="2"/>
+                            <polygon points="88,82 112,82 106,148 94,148" fill="#FFED00" stroke="#FFFFFF" stroke-width="2"/>
+                            <ellipse cx="100" cy="70" rx="24" ry="8" fill="#FFED00" stroke="#FFFFFF" stroke-width="2"/>
+                            <ellipse cx="100" cy="60" rx="18" ry="6" fill="#FFED00" stroke="#FFFFFF" stroke-width="2"/>
+                            <path d="M82,55 C78,35 92,35 90,22 C98,10 106,20 105,32 C112,24 120,38 118,55 Z" fill="#E31E24" stroke="#FFFFFF" stroke-width="2.5"/>
+                            <defs>
+                                <path id="pgriTopPath" d="M 28,100 A 72,72 0 1,1 172,100" />
+                            </defs>
+                            <text fill="#FFFFFF" font-family="Arial" font-weight="900" font-size="13.5" letter-spacing="1.2">
+                                <textPath href="#pgriTopPath" startOffset="50%" text-anchor="middle">PERSATUAN GURU REPUBLIK</textPath>
+                            </text>
+                            <text x="100" y="182" fill="#FFFFFF" font-family="Arial" font-weight="900" font-size="16" text-anchor="middle" letter-spacing="3">PGRI</text>
+                        </svg>
+                    </div>
+                    <span class="text-xs font-extrabold text-white bg-red-600 px-2.5 py-0.5 rounded-full border-2 border-slate-800 mt-2">LOGO RESMI PGRI</span>
+                </div>
+            </div>
+
+            <!-- Judul Game & Sub-judul -->
+            <div class="inline-block bg-amber-400 border-2 border-slate-900 text-slate-950 px-4 py-1 rounded-full font-extrabold text-xs md:text-sm uppercase tracking-wider mb-2 shadow-[0_3px_0_#1e293b]">
+                🍄 Media Pembelajaran Interaktif (MPI) IPAS — Edisi Platformer 2D
+            </div>
+            <h1 class="text-3xl sm:text-5xl md:text-6xl font-game font-extrabold tracking-tight title-3d mb-2">
+                MARKAS KOMANDO ORBIT
+            </h1>
+            <p class="text-sm md:text-lg text-slate-700 font-extrabold max-w-2xl mx-auto mb-5">
+                Petualangan Seru Bergaya Super Mario Menjelajahi Sistem Tata Surya, Rotasi, & Revolusi Bumi untuk Siswa Kelas 6 SD!
+            </p>
+
+            <!-- Identitas Pengembang: Yuli Sri Untari & Cabang PGRI Sidoharjo -->
+            <div class="cartoon-panel-amber rounded-2xl p-4 max-w-xl mx-auto mb-6">
+                <p class="text-xs uppercase tracking-widest text-amber-900 font-extrabold mb-0.5">Karya Inovasi Pembelajaran Oleh:</p>
+                <h2 class="text-xl md:text-2xl font-game font-extrabold text-slate-900 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-medal text-orange-600"></i> Yuli Sri Untari
+                </h2>
+                <p class="text-xs md:text-sm text-slate-800 font-extrabold">
+                    Cabang PGRI Sidoharjo — Kabupaten Wonogiri
+                </p>
+            </div>
+
+            <!-- Tombol "Mulai / Start" & Tombol "Petunjuk" -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="goToLobby()" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-b from-emerald-400 to-emerald-500 hover:from-emerald-300 hover:to-emerald-400 text-slate-950 font-game font-extrabold text-xl rounded-2xl btn-arcade flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-play text-2xl"></i> MULAI PETUALANGAN!
+                </button>
+                <button onclick="openEducationModal()" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-b from-amber-300 to-amber-400 hover:from-amber-200 hover:to-amber-300 text-slate-950 font-game font-extrabold text-xl rounded-2xl btn-arcade flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-book-open text-2xl"></i> PETUNJUK & MATERI
+                </button>
+            </div>
+
+            <!-- Footer Compatibility Badge -->
+            <div class="mt-6 pt-4 border-t-2 border-dashed border-slate-300 flex flex-wrap items-center justify-center gap-3 text-xs font-extrabold text-slate-600">
+                <span class="bg-slate-100 px-3 py-1 rounded-full border border-slate-300"><i class="fa-solid fa-keyboard text-blue-600 mr-1"></i> Keyboard PC/Laptop</span>
+                <span class="bg-slate-100 px-3 py-1 rounded-full border border-slate-300"><i class="fa-solid fa-mobile-screen-button text-emerald-600 mr-1"></i> Layar Sentuh HP/Tablet</span>
+                <span class="bg-slate-100 px-3 py-1 rounded-full border border-slate-300"><i class="fa-solid fa-chalkboard-user text-orange-600 mr-1"></i> Smartboard Kelas Interaktif</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 2. HALAMAN LOBI (START SCREEN & PENGATURAN PETUALANG)             -->
+    <!-- ================================================================= -->
+    <section id="lobbyScreen" class="hidden relative z-10 min-h-screen flex flex-col justify-center p-3 md:p-6 pb-12">
+        <div class="max-w-6xl w-full mx-auto cartoon-card rounded-3xl p-5 md:p-7">
+            
+            <!-- Top Bar Lobby -->
+            <div class="flex flex-wrap items-center justify-between gap-4 pb-4 mb-5 border-b-4 border-slate-800">
+                <div class="flex items-center gap-3">
+                    <button onclick="backToSplash()" class="px-4 py-2 rounded-xl bg-amber-300 hover:bg-amber-200 text-slate-900 text-sm font-extrabold flex items-center gap-2 btn-arcade">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali
+                    </button>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-game font-extrabold text-indigo-950">🚀 LOBI MARKAS KOMANDO ORBIT</h2>
+                        <p class="text-xs md:text-sm font-bold text-slate-600">Isi Identitas Petualang, Pilih Karakter, Level, dan Fokus Materi IPAS Kelas 6 SD</p>
+                    </div>
+                </div>
+                <button onclick="openEducationModal()" class="px-4 py-2 rounded-xl bg-sky-400 hover:bg-sky-300 text-slate-950 font-extrabold text-sm flex items-center gap-2 btn-arcade">
+                    <i class="fa-solid fa-circle-question"></i> Cara Main & Tujuan
+                </button>
+            </div>
+
+            <!-- Main Lobby Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Kolom Kiri (7 Cols): Form Identitas, Karakter, dan Level -->
+                <div class="lg:col-span-7 space-y-4">
+                    
+                    <!-- 1. Form Identitas Petualang -->
+                    <div class="cartoon-panel-blue rounded-2xl p-4">
+                        <h3 class="text-base font-game font-extrabold text-blue-900 mb-3 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-extrabold border-2 border-slate-900">1</span>
+                            IDENTITAS PETUALANG CILIK
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                            <div>
+                                <label class="block text-xs font-extrabold text-slate-700 mb-1">NAMA SISWA:</label>
+                                <input id="studentNameInput" type="text" placeholder="Ketik nama lengkapmu..." value="Kapten Cilik" class="w-full px-3.5 py-2.5 rounded-xl bg-white border-3 border-2 border-slate-800 focus:border-blue-600 text-slate-900 font-extrabold focus:outline-none shadow-inner">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-extrabold text-slate-700 mb-1">PILIH KELAS:</label>
+                                <select id="studentClassInput" class="w-full px-3.5 py-2.5 rounded-xl bg-white border-2 border-slate-800 focus:border-blue-600 text-slate-900 font-extrabold focus:outline-none shadow-inner">
+                                    <option value="Kelas 6 SD">Kelas 6 SD (Utama)</option>
+                                    <option value="Kelas 5A">Kelas 5A</option>
+                                    <option value="Kelas 5B">Kelas 5B</option>
+                                    <option value="Kelas 5C">Kelas 5C</option>
+                                    <option value="Kelas 5 SD">Kelas 5 SD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Pilihan Karakter Jagoan -->
+                    <div class="cartoon-panel rounded-2xl p-4">
+                        <h3 class="text-base font-game font-extrabold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-orange-500 text-white flex items-center justify-center text-xs font-extrabold border-2 border-slate-900">2</span>
+                            PILIH KARAKTER JAGOANMU
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                            <!-- Kapten Bima -->
+                            <div id="charCardBima" onclick="selectCharacter('bima')" class="cursor-pointer rounded-2xl p-3.5 border-4 border-orange-500 bg-amber-100 shadow-[0_5px_0_#ea580c] transition-all flex items-start gap-3 relative">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-b from-orange-400 to-amber-500 flex items-center justify-center shrink-0 border-2 border-slate-900 shadow">
+                                    <svg viewBox="0 0 64 64" class="w-14 h-14">
+                                        <circle cx="32" cy="24" r="16" fill="#FFFFFF" stroke="#1E293B" stroke-width="3"/>
+                                        <rect x="20" y="16" width="24" height="14" rx="6" fill="#38BDF8" stroke="#1E293B" stroke-width="2"/>
+                                        <circle cx="27" cy="21" r="2.5" fill="#FFF"/>
+                                        <rect x="20" y="40" width="24" height="16" rx="4" fill="#F97316" stroke="#1E293B" stroke-width="2.5"/>
+                                        <rect x="26" y="44" width="12" height="8" rx="2" fill="#FFF"/>
+                                        <rect x="18" y="56" width="10" height="6" rx="2" fill="#64748B"/>
+                                        <rect x="36" y="56" width="10" height="6" rx="2" fill="#64748B"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="flex flex-wrap items-center gap-1">
+                                        <h4 class="font-game font-extrabold text-slate-900 text-base">Kapten Bima</h4>
+                                        <span class="text-[10px] bg-orange-500 text-white font-extrabold px-2 py-0.5 rounded-full">Astronot Cilik</span>
+                                    </div>
+                                    <p class="text-xs text-slate-700 font-bold mt-1 leading-snug">
+                                        Baju astronot putih-oranye & sepatu pegas gravitasi. Gesit berlari & melompat tinggi!
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- O-Bit (Orbit Bot) -->
+                            <div id="charCardObit" onclick="selectCharacter('obit')" class="cursor-pointer rounded-2xl p-3.5 border-4 border-slate-300 bg-white hover:border-cyan-500 transition-all flex items-start gap-3 relative">
+                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-b from-cyan-400 to-blue-600 flex items-center justify-center shrink-0 border-2 border-slate-900 shadow">
+                                    <svg viewBox="0 0 64 64" class="w-14 h-14">
+                                        <line x1="32" y1="6" x2="32" y2="16" stroke="#FACC15" stroke-width="3"/>
+                                        <circle cx="32" cy="6" r="4" fill="#EF4444" stroke="#1E293B" stroke-width="1.5"/>
+                                        <circle cx="32" cy="34" r="16" fill="#F8FAFC" stroke="#1E293B" stroke-width="3"/>
+                                        <rect x="22" y="27" width="20" height="10" rx="5" fill="#0F172A"/>
+                                        <circle cx="27" cy="32" r="2.5" fill="#22D3EE"/>
+                                        <circle cx="37" cy="32" r="2.5" fill="#22D3EE"/>
+                                        <ellipse cx="32" cy="36" rx="26" ry="6" fill="none" stroke="#FACC15" stroke-width="4" transform="rotate(-12 32 36)"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="flex flex-wrap items-center gap-1">
+                                        <h4 class="font-game font-extrabold text-slate-900 text-base">O-Bit (Orbit Bot)</h4>
+                                        <span class="text-[10px] bg-cyan-600 text-white font-extrabold px-2 py-0.5 rounded-full">Robot Navigasi</span>
+                                    </div>
+                                    <p class="text-xs text-slate-700 font-bold mt-1 leading-snug">
+                                        Robot bulat melayang menyerupai planet bercincin. Stabil melayang di udara!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Pilihan Level & Tingkat Kesulitan -->
+                    <div class="cartoon-panel rounded-2xl p-4">
+                        <h3 class="text-base font-game font-extrabold text-slate-900 mb-3 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center text-xs font-extrabold border-2 border-slate-900">3</span>
+                            PILIH LEVEL PETUALANGAN & MODE
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                            <div>
+                                <label class="block text-xs font-extrabold text-slate-700 mb-1">PILIHAN LEVEL MISI:</label>
+                                <select id="levelSelectInput" onchange="updateLevelPreview()" class="w-full px-3 py-2.5 rounded-xl bg-white border-2 border-slate-800 text-slate-900 font-extrabold text-xs sm:text-sm focus:outline-none">
+                                    <option value="1">Level 1: Lembah Bulan (Mudah)</option>
+                                    <option value="2">Level 2: Langit Nebula (Sedang)</option>
+                                    <option value="3">Level 3: Kastil Matahari (Tantangan Boss)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-extrabold text-slate-700 mb-1">MODE NYAWA:</label>
+                                <select id="difficultySelectInput" class="w-full px-3 py-2.5 rounded-xl bg-white border-2 border-slate-800 text-slate-900 font-extrabold text-xs sm:text-sm focus:outline-none">
+                                    <option value="normal">Mode Petualang (3 Hati ❤️‍🔥)</option>
+                                    <option value="relaxed">Mode Belajar Santai (5 Hati ❤️‍🔥)</option>
+                                    <option value="challenge">Mode Komandan Ahli (2 Hati ❤️‍🔥)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p id="levelDescPreview" class="text-xs font-bold text-emerald-950 mt-2.5 bg-emerald-100 px-3 py-2 rounded-xl border-2 border-emerald-500">
+                            <i class="fa-solid fa-moon text-emerald-700 mr-1"></i> <b>Level 1 - Lembah Bulan:</b> Tema kawah terang dengan lompatan gravitasi ringan dan rintangan mudah.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan (5 Cols): Panel Pilih Fokus Materi Inti & Ringkasan -->
+                <div class="lg:col-span-5 flex flex-col justify-between cartoon-panel-amber rounded-2xl p-5">
+                    <div>
+                        <h3 class="text-base font-game font-extrabold text-amber-950 mb-3 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-amber-500 text-slate-950 flex items-center justify-center text-xs font-extrabold border-2 border-slate-900">4</span>
+                            PILIH FOKUS MATERI INTI IPAS
+                        </h3>
+
+                        <!-- 3 Pilihan Fokus Materi -->
+                        <div class="space-y-2.5 mb-4">
+                            <button onclick="selectTopic(1)" id="topicBtn1" class="w-full text-left p-3 rounded-xl border-4 border-slate-900 bg-amber-300 shadow-[0_4px_0_#1e293b] transition-all flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-white border-2 border-slate-900 text-blue-600 flex items-center justify-center font-bold text-lg shrink-0">
+                                    <i class="fa-solid fa-earth-asia"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[11px] font-extrabold text-amber-950 uppercase">Fokus Materi 1</div>
+                                    <div class="text-sm font-extrabold text-slate-900">Menjelajahi Bumi, Matahari, dan Bulan</div>
+                                </div>
+                            </button>
+
+                            <button onclick="selectTopic(2)" id="topicBtn2" class="w-full text-left p-3 rounded-xl border-2 border-slate-400 bg-white/80 hover:bg-white transition-all flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-100 border-2 border-slate-800 text-cyan-700 flex items-center justify-center font-bold text-lg shrink-0">
+                                    <i class="fa-solid fa-arrows-spin"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[11px] font-extrabold text-cyan-800 uppercase">Fokus Materi 2</div>
+                                    <div class="text-sm font-extrabold text-slate-900">Dampak Gerak Rotasi dan Revolusi di Kehidupan Kita</div>
+                                </div>
+                            </button>
+
+                            <button onclick="selectTopic(3)" id="topicBtn3" class="w-full text-left p-3 rounded-xl border-2 border-slate-400 bg-white/80 hover:bg-white transition-all flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-purple-100 border-2 border-slate-800 text-purple-700 flex items-center justify-center font-bold text-lg shrink-0">
+                                    <i class="fa-solid fa-sun"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[11px] font-extrabold text-purple-800 uppercase">Fokus Materi 3</div>
+                                    <div class="text-sm font-extrabold text-slate-900">Menjelajahi Sistem Tata Surya</div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Ringkasan Singkat Materi Sebelum Bermain -->
+                        <div class="bg-white border-2 border-slate-800 rounded-xl p-3.5 text-xs leading-relaxed text-slate-800 shadow-sm">
+                            <div class="font-extrabold text-orange-600 mb-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-lightbulb"></i> RINGKASAN MATERI BEKAL PETUALANG:
+                            </div>
+                            <div id="topicSummaryBox" class="space-y-1.5 font-bold text-slate-700">
+                                <p>• <b>Matahari</b> adalah bintang pusat tata surya yang memancarkan cahaya sendiri.</p>
+                                <p>• <b>Bumi</b> adalah planet tempat tinggal kita yang berputar pada porosnya (rotasi 24 jam) dan mengelilingi Matahari (revolusi 365¼ hari).</p>
+                                <p>• <b>Bulan</b> adalah satelit alami Bumi. Posisi ketiganya menyebabkan fase bulan serta gerhana matahari dan gerhana bulan.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Luncurkan Misi -->
+                    <button onclick="startGame()" class="mt-5 w-full py-4 bg-gradient-to-b from-red-500 to-orange-500 hover:from-red-400 hover:to-orange-400 text-white font-game font-extrabold text-xl rounded-2xl btn-arcade flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-rocket"></i> MULAI BERMAIN SEKARANG!
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 3. HALAMAN UTAMA PERMAINAN / GAMEPLAY & HUD                       -->
+    <!-- ================================================================= -->
+    <section id="gameScreen" class="hidden fixed inset-0 z-20 flex flex-col bg-sky-900 select-none overflow-hidden">
+        
+        <!-- HUD (HEADS-UP DISPLAY) HEADER ATAS BERGAYA SUPER MARIO CERIA -->
+        <header class="bg-gradient-to-r from-indigo-900 via-blue-800 to-indigo-900 border-b-4 border-slate-950 px-3 py-2 flex flex-wrap items-center justify-between gap-2 z-30 shadow-xl text-white">
+            <!-- Info Siswa & Karakter -->
+            <div class="flex items-center gap-2.5 bg-slate-950/50 px-3 py-1 rounded-2xl border-2 border-amber-400">
+                <div id="hudAvatarBadge" class="w-9 h-9 rounded-xl bg-amber-400 border-2 border-slate-900 flex items-center justify-center font-bold text-slate-950 shadow">
+                    <i class="fa-solid fa-user-astronaut"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-1.5">
+                        <span id="hudStudentName" class="font-game font-extrabold text-sm text-yellow-300">Kapten Cilik</span>
+                        <span id="hudStudentClass" class="text-[10px] bg-emerald-500 text-slate-950 px-2 py-0.5 rounded-full font-extrabold">Kelas 6 SD</span>
+                    </div>
+                    <!-- Indikator Nyawa -->
+                    <div id="hudLives" class="text-xs tracking-wider mt-0.5">❤️‍🔥❤️‍🔥❤️‍🔥</div>
+                </div>
+            </div>
+
+            <!-- Nama Level & Progress Bar Jarak -->
+            <div class="flex flex-col items-center min-w-[150px] sm:min-w-[230px] bg-slate-950/40 px-3 py-1 rounded-2xl border border-sky-400/40">
+                <div class="flex items-center justify-between w-full text-xs font-extrabold mb-1">
+                    <span id="hudLevelName" class="text-yellow-300 font-game">Level 1: Lembah Bulan</span>
+                    <span id="hudDistancePct" class="text-emerald-300">0%</span>
+                </div>
+                <div class="w-full h-3 bg-slate-900 rounded-full overflow-hidden border-2 border-slate-950">
+                    <div id="hudProgressBar" class="h-full bg-gradient-to-r from-yellow-400 via-orange-400 to-emerald-400 w-0 transition-all duration-150"></div>
+                </div>
+            </div>
+
+            <!-- Statistik Koin, Blok Kuis [?], Skor, Waktu & Tombol Aksi -->
+            <div class="flex items-center gap-2 sm:gap-2.5">
+                <div class="bg-amber-400 border-2 border-slate-950 text-slate-950 px-2.5 py-1 rounded-xl text-xs font-extrabold flex items-center gap-1 shadow">
+                    <span>🪙</span> <span id="hudCoins">0</span>
+                </div>
+                <div class="bg-yellow-300 border-2 border-slate-950 text-slate-950 px-2.5 py-1 rounded-xl text-xs font-extrabold flex items-center gap-1 shadow" title="Progres Blok Kuis Terjawab">
+                    <span>❓</span> <span id="hudQuizProgress">0/4</span>
+                </div>
+                <div class="bg-white border-2 border-slate-950 text-slate-950 px-2.5 py-1 rounded-xl text-xs font-extrabold flex items-center gap-1 shadow">
+                    <i class="fa-solid fa-star text-amber-500"></i> <span id="hudScore">0</span>
+                </div>
+                <div class="hidden md:flex bg-sky-200 border-2 border-slate-950 text-slate-950 px-2.5 py-1 rounded-xl text-xs font-extrabold items-center gap-1 shadow">
+                    <i class="fa-regular fa-clock text-blue-700"></i> <span id="hudTimer">00:00</span>
+                </div>
+
+                <!-- Tombol Suara & Pause -->
+                <button onclick="toggleSound()" id="btnSoundToggle" class="w-9 h-9 rounded-xl bg-amber-400 hover:bg-amber-300 border-2 border-slate-950 text-slate-950 flex items-center justify-center shadow font-bold" title="Suara On/Off">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="togglePauseGame()" id="btnPauseToggle" class="w-9 h-9 rounded-xl bg-rose-500 hover:bg-rose-400 border-2 border-slate-950 text-white flex items-center justify-center shadow font-bold" title="Pause Permainan">
+                    ⏸️
+                </button>
+            </div>
+        </header>
+
+        <!-- AREA CANVAS PERMAINAN 2D PLATFORMER -->
+        <div class="relative flex-1 w-full h-full overflow-hidden">
+            <canvas id="gameCanvas" class="w-full h-full block"></canvas>
+
+            <!-- Floating Toast Notification inside Gameplay -->
+            <div id="gameToast" class="hidden absolute top-4 left-1/2 -translate-x-1/2 bg-amber-300 border-4 border-slate-950 text-slate-950 px-5 py-2 rounded-full font-game font-extrabold text-sm shadow-[0_5px_0_#0f172a] pointer-events-none transition-all z-30">
+                🌟 Jamur Pintar Aktif! +100 Poin!
+            </div>
+
+            <!-- KONTROL VIRTUAL LAYAR SENTUH / SMARTBOARD (Bagian Bawah Layar) -->
+            <div class="absolute bottom-3 left-0 right-0 px-4 md:px-8 flex items-center justify-between pointer-events-none z-30">
+                <!-- Tombol Kiri & Kanan -->
+                <div class="flex items-center gap-3 pointer-events-auto">
+                    <button id="btnTouchLeft" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-amber-400/95 active:bg-amber-300 border-4 border-slate-950 text-slate-950 text-2xl md:text-3xl flex items-center justify-center shadow-[0_5px_0_#0f172a]">
+                        <i class="fa-solid fa-caret-left"></i>
+                    </button>
+                    <button id="btnTouchRight" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-amber-400/95 active:bg-amber-300 border-4 border-slate-950 text-slate-950 text-2xl md:text-3xl flex items-center justify-center shadow-[0_5px_0_#0f172a]">
+                        <i class="fa-solid fa-caret-right"></i>
+                    </button>
+                </div>
+
+                <!-- Petunjuk Singkat Tengah -->
+                <div class="hidden sm:flex bg-white/90 border-2 border-slate-900 px-4 py-1.5 rounded-full text-xs font-extrabold text-slate-900 shadow">
+                    Sundul 4 Blok <span class="bg-amber-400 px-1.5 rounded border border-slate-900 mx-1">[?]</span> dari bawah & capai Kastil/Roket Finish!
+                </div>
+
+                <!-- Tombol Lompat -->
+                <div class="pointer-events-auto">
+                    <button id="btnTouchJump" class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-b from-emerald-400 to-emerald-500 active:from-emerald-300 active:to-emerald-400 border-4 border-slate-950 text-slate-950 font-game font-extrabold text-sm md:text-base flex flex-col items-center justify-center shadow-[0_6px_0_#0f172a]">
+                        <i class="fa-solid fa-arrow-up text-xl md:text-2xl"></i>
+                        <span>LOMPAT</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- 4. MODAL POP-UP "BLOK KUIS EDUKASI [?]"                           -->
+    <!-- ================================================================= -->
+    <div id="quizModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="max-w-2xl w-full cartoon-card rounded-3xl p-5 md:p-7 relative">
+            
+            <!-- Header Modal Kuis -->
+            <div class="flex items-center justify-between gap-3 pb-3 mb-4 border-b-4 border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl mario-q-block flex items-center justify-center font-game font-extrabold text-2xl text-amber-950">
+                        ?
+                    </div>
+                    <div>
+                        <span class="text-[11px] font-extrabold uppercase tracking-wider bg-amber-300 text-slate-950 px-2.5 py-0.5 rounded-full border-2 border-slate-900">
+                            Hadiah: +100 Poin & 🍄 Jamur Pintar
+                        </span>
+                        <h3 class="text-xl md:text-2xl font-game font-extrabold text-slate-900 mt-0.5">BLOK KUIS EDUKASI IPAS</h3>
+                    </div>
+                </div>
+                <div id="quizCounterBadge" class="text-xs font-extrabold bg-indigo-600 text-white px-3 py-1.5 rounded-xl border-2 border-slate-900">
+                    Kuis 1 / 4
+                </div>
+            </div>
+
+            <!-- Pertanyaan Soal -->
+            <div class="cartoon-panel-blue rounded-2xl p-4 mb-4">
+                <p id="quizQuestionText" class="text-base md:text-lg font-extrabold text-slate-900 leading-relaxed">
+                    Pertanyaan akan muncul di sini...
+                </p>
+            </div>
+
+            <!-- Pilihan Ganda A, B, C, D -->
+            <div id="quizOptionsContainer" class="grid grid-cols-1 gap-2.5 mb-4">
+                <!-- Diisi secara dinamis oleh JavaScript -->
+            </div>
+
+            <!-- Umpan Balik Langsung (Benar/Salah beserta Penjelasan Singkat) -->
+            <div id="quizFeedbackBox" class="hidden rounded-2xl p-4 mb-4 border-3">
+                <div id="quizFeedbackTitle" class="font-game font-extrabold text-lg mb-1"></div>
+                <p id="quizFeedbackExplanation" class="text-xs md:text-sm font-bold text-slate-800 leading-relaxed"></p>
+            </div>
+
+            <!-- Tombol Lanjutkan Permainan -->
+            <div class="flex justify-end">
+                <button id="btnContinueAfterQuiz" onclick="closeQuizAndResume()" class="hidden w-full sm:w-auto px-7 py-3 bg-gradient-to-b from-emerald-400 to-emerald-500 hover:from-emerald-300 hover:to-emerald-400 text-slate-950 font-game font-extrabold text-lg rounded-xl btn-arcade flex items-center justify-center gap-2">
+                    LANJUTKAN PETUALANGAN <i class="fa-solid fa-forward"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- 5. MODAL PAUSE PERMAINAN                                          -->
+    <!-- ================================================================= -->
+    <div id="pauseModal" class="hidden fixed inset-0 z-40 bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="max-w-md w-full cartoon-card rounded-3xl p-6 text-center">
+            <div class="w-16 h-16 rounded-2xl mario-q-block flex items-center justify-center text-3xl mx-auto mb-3">
+                ⏸️
+            </div>
+            <h3 class="text-2xl font-game font-extrabold text-slate-900 mb-1">PERMAINAN DIJEDA</h3>
+            <p class="text-sm font-bold text-slate-600 mb-6">Istirahat sejenak, Kapten! Siap melanjutkan misi orbit?</p>
+            <div class="space-y-3">
+                <button onclick="togglePauseGame()" class="w-full py-3 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-game font-extrabold rounded-xl text-lg btn-arcade">
+                    <i class="fa-solid fa-play mr-2"></i> LANJUTKAN BERMAIN
+                </button>
+                <button onclick="restartCurrentLevel()" class="w-full py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-game font-extrabold rounded-xl text-lg btn-arcade">
+                    <i class="fa-solid fa-rotate-right mr-2"></i> ULANGI LEVEL INI
+                </button>
+                <button onclick="quitToLobby()" class="w-full py-3 bg-rose-500 hover:bg-rose-400 text-white font-game font-extrabold rounded-xl text-base btn-arcade">
+                    <i class="fa-solid fa-house mr-2"></i> KEMBALI KE LOBI
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- 6. HALAMAN EDUKASI & PENGATURAN (MODAL PETUNJUK & TUJUAN)         -->
+    <!-- ================================================================= -->
+    <div id="educationModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="max-w-3xl w-full cartoon-card rounded-3xl p-6 md:p-8 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-4 mb-5 border-b-4 border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl mario-q-block text-slate-950 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl md:text-2xl font-game font-extrabold text-slate-900">PETUNJUK & TUJUAN PEMBELAJARAN</h3>
+                        <p class="text-xs font-bold text-slate-600">Markas Komando Orbit — Media Pembelajaran Interaktif IPAS Kelas 6 SD</p>
+                    </div>
+                </div>
+                <button onclick="closeEducationModal()" class="w-10 h-10 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-bold flex items-center justify-center btn-arcade">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-sm leading-relaxed">
+                <!-- Tujuan Pembelajaran & Target Capaian -->
+                <div class="cartoon-panel-blue rounded-2xl p-4">
+                    <h4 class="font-game font-extrabold text-blue-900 text-base mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-bullseye text-red-500"></i> TUJUAN PEMBELAJARAN & TARGET CAPAIAN
+                    </h4>
+                    <p class="text-slate-800 font-bold mb-2">
+                        <b>Tujuan Utama:</b> Peserta didik Kelas 6 SD mampu memahami <b>Sistem Tata Surya</b> dan kaitannya dengan <b>gerak Rotasi serta Revolusi Bumi</b> dalam kehidupan sehari-hari.
+                    </p>
+                    <ul class="list-disc list-inside text-xs font-bold text-slate-700 space-y-1">
+                        <li>Mengenal karakteristik Matahari, Bumi, Bulan, serta peristiwa gerhana.</li>
+                        <li>Menganalisis dampak gerak rotasi bumi (siang-malam, gerak semu harian, zona waktu) dan revolusi bumi (pergantian musim, gerak semu tahunan, kalender).</li>
+                        <li>Mengklasifikasikan planet-planet dalam dan luar di sistem tata surya beserta benda langit lainnya.</li>
+                    </ul>
+                </div>
+
+                <!-- Petunjuk Cara Bermain & Kontrol -->
+                <div class="cartoon-panel-amber rounded-2xl p-4">
+                    <h4 class="font-game font-extrabold text-amber-950 text-base mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad text-orange-600"></i> PETUNJUK CARA BERMAIN & KONTROL
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-bold text-slate-800">
+                        <div class="bg-white p-3.5 rounded-xl border-2 border-slate-800">
+                            <div class="font-extrabold text-blue-700 mb-1.5"><i class="fa-solid fa-keyboard mr-1"></i> Kontrol Keyboard & Smartboard:</div>
+                            <p class="mb-1">• <b>Bergerak Kiri/Kanan:</b> Tombol Panah ⬅️ / ➡️ atau huruf <b>A / D</b>.</p>
+                            <p class="mb-1">• <b>Melompat:</b> Tombol <b>Spasi (Space)</b>, Panah Atas ⬆️, atau huruf <b>W</b>.</p>
+                            <p>• <b>Layar Sentuh / Smartboard:</b> Gunakan tombol virtual Kiri, Kanan, dan Lompat di bagian bawah layar.</p>
+                        </div>
+                        <div class="bg-white p-3.5 rounded-xl border-2 border-slate-800">
+                            <div class="font-extrabold text-emerald-700 mb-1.5"><i class="fa-solid fa-cubes mr-1"></i> Misi Blok Kuis [?] & Musuh:</div>
+                            <p class="mb-1">• Carilah <b>4 Blok Kuis [?]</b> di setiap level dan <b>sundul dari bawah</b> untuk menjawab kuis berhadiah +100 Poin & Jamur Pintar!</p>
+                            <p class="mb-1">• Lompati pipa/jurang dan injak musuh dari atas untuk mengalahkannya.</p>
+                            <p>• Capai <b>Roket & Bendera Finish</b> di ujung kanan level untuk menang!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeEducationModal()" class="px-6 py-3 bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-game font-extrabold rounded-xl btn-arcade">
+                    SAYA MENGERTI, SIAP BERMAIN!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- 7. LAYAR AKHIR (SERTIFIKAT & RAPOR EVALUASI IPAS KELAS 6 SD)      -->
+    <!-- ================================================================= -->
+    <div id="resultModal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 md:p-6 overflow-y-auto">
+        <div id="printableArea" class="max-w-4xl w-full cartoon-card rounded-3xl p-5 md:p-8 my-auto max-h-[94vh] overflow-y-auto">
+            
+            <!-- Header Sertifikat -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 pb-5 mb-5 border-b-4 border-slate-800 text-center md:text-left">
+                <div class="flex items-center gap-3">
+                    <div class="w-16 h-16 rounded-2xl mario-q-block flex items-center justify-center text-3xl shrink-0">
+                        🏆
+                    </div>
+                    <div>
+                        <span id="resultStatusBanner" class="text-xs font-extrabold uppercase tracking-widest bg-emerald-400 text-slate-950 px-3 py-0.5 rounded-full border-2 border-slate-900">
+                            MISI ORBIT SELESAI!
+                        </span>
+                        <h2 class="text-xl md:text-3xl font-game font-extrabold text-slate-900 mt-1">
+                            SERTIFIKAT & RAPOR EVALUASI IPAS KELAS 6 SD
+                        </h2>
+                        <p class="text-xs font-extrabold text-slate-600">Markas Komando Orbit — Pengembang: Yuli Sri Untari (Cabang PGRI Sidoharjo, Kab. Wonogiri)</p>
+                    </div>
+                </div>
+                <!-- Bintang Apresiasi -->
+                <div id="resultStarsDisplay" class="text-2xl md:text-3xl tracking-widest bg-amber-100 px-4 py-2 rounded-2xl border-3 border-2 border-slate-900 shadow">
+                    ⭐⭐⭐
+                </div>
+            </div>
+
+            <!-- Ringkasan Kartu Identitas & Skor -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+                <div class="cartoon-panel-blue p-3.5 rounded-2xl">
+                    <div class="text-[11px] text-blue-900 font-extrabold uppercase">NAMA & KELAS PETUALANG</div>
+                    <div id="repStudentName" class="text-base md:text-lg font-game font-extrabold text-slate-900 mt-0.5">Kapten Cilik</div>
+                    <div id="repStudentClass" class="text-xs text-blue-700 font-extrabold">Kelas 6 SD</div>
+                </div>
+                <div class="cartoon-panel-amber p-3.5 rounded-2xl">
+                    <div class="text-[11px] text-amber-900 font-extrabold uppercase">TOTAL SKOR & KOIN</div>
+                    <div id="repScore" class="text-base md:text-lg font-game font-extrabold text-slate-900 mt-0.5">850 Poin</div>
+                    <div id="repCoins" class="text-xs text-orange-700 font-extrabold">🪙 12 Koin Kosmik</div>
+                </div>
+                <div class="bg-emerald-100 border-3 border-2 border-emerald-600 p-3.5 rounded-2xl shadow-[0_4px_0_#059669]">
+                    <div class="text-[11px] text-emerald-950 font-extrabold uppercase">NILAI EVALUASI KUIS</div>
+                    <div id="repAccuracy" class="text-base md:text-lg font-game font-extrabold text-emerald-800 mt-0.5">100%</div>
+                    <div id="repCorrectCount" class="text-xs text-emerald-900 font-extrabold">Benar 4 dari 4 Soal</div>
+                </div>
+                <div class="cartoon-panel p-3.5 rounded-2xl">
+                    <div class="text-[11px] text-slate-600 font-extrabold uppercase">TOPIK MATERI & LEVEL</div>
+                    <div id="repTopicTitle" class="text-xs md:text-sm font-extrabold text-slate-900 mt-0.5 line-clamp-2">Sistem Tata Surya</div>
+                    <div id="repLevelTitle" class="text-[11px] text-indigo-700 font-extrabold mt-0.5">Level 1: Lembah Bulan</div>
+                </div>
+            </div>
+
+            <!-- Umpan Balik Pembelajaran Otomatis -->
+            <div class="cartoon-panel-amber rounded-2xl p-4 mb-5">
+                <div class="text-xs font-extrabold uppercase tracking-wider text-orange-800 mb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-comment-dots"></i> UMPAN BALIK PEMBELAJARAN OTOMATIS:
+                </div>
+                <p id="repFeedbackMessage" class="text-sm md:text-base font-extrabold text-slate-900 leading-relaxed">
+                    Luar biasa! Pemahamanmu tentang sistem tata surya serta rotasi dan revolusi bumi sangat matang.
+                </p>
+            </div>
+
+            <!-- Detail Evaluasi & Pembahasan Soal -->
+            <div class="mb-6">
+                <h3 class="text-base font-game font-extrabold text-slate-900 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-clipboard-check text-emerald-600"></i> DETAIL EVALUASI & PEMBAHASAN SOAL
+                </h3>
+                <div id="repQuestionDetailsList" class="space-y-3">
+                    <!-- Diisi otomatis oleh JavaScript -->
+                </div>
+            </div>
+
+            <!-- Tombol Aksi Rapor: Main Lagi, Cetak Rapor, Keluar -->
+            <div class="no-print flex flex-wrap items-center justify-between gap-3 pt-4 border-t-4 border-slate-800">
+                <div class="flex flex-wrap items-center gap-3">
+                    <button onclick="restartCurrentLevel()" class="px-6 py-3 bg-gradient-to-b from-emerald-400 to-emerald-500 hover:from-emerald-300 hover:to-emerald-400 text-slate-950 font-game font-extrabold rounded-xl btn-arcade flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> MAIN LAGI
+                    </button>
+                    <button onclick="window.print()" class="px-6 py-3 bg-gradient-to-b from-amber-300 to-amber-400 hover:from-amber-200 hover:to-amber-300 text-slate-950 font-game font-extrabold rounded-xl btn-arcade flex items-center gap-2">
+                        <i class="fa-solid fa-print"></i> CETAK / SIMPAN RAPOR
+                    </button>
+                </div>
+                <button onclick="quitToLobby()" class="px-5 py-3 bg-rose-500 hover:bg-rose-400 text-white font-game font-extrabold rounded-xl btn-arcade flex items-center gap-2">
+                    <i class="fa-solid fa-right-from-bracket"></i> KELUAR KE LOBI
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- JAVASCRIPT: ENGINE GAME, WEB AUDIO API & BANK SOAL IPAS KELAS 6   -->
+    <!-- ================================================================= -->
+    <script>
+        /* -----------------------------------------------------------------
+           1. WEB AUDIO API SYNTHESIZER (Tanpa file MP3 eksternal)
+        ----------------------------------------------------------------- */
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                const now = audioCtx.currentTime;
+
+                if (type === 'jump') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(180, now);
+                    osc.frequency.exponentialRampToValueAtTime(580, now + 0.16);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.16);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.16);
+                } 
+                else if (type === 'coin') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(987.77, now); // B5
+                    osc.frequency.setValueAtTime(1318.51, now + 0.07); // E6
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.28);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.28);
+                } 
+                else if (type === 'block') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(620, now + 0.12);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.14);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.14);
+                } 
+                else if (type === 'correct') {
+                    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5 E5 G5 C6
+                    notes.forEach((freq, idx) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                        gain.gain.setValueAtTime(0.16, now + idx * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.08 + 0.22);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now + idx * 0.08);
+                        osc.stop(now + idx * 0.08 + 0.22);
+                    });
+                } 
+                else if (type === 'wrong') {
+                    const notes = [300, 220];
+                    notes.forEach((freq, idx) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.15);
+                        gain.gain.setValueAtTime(0.14, now + idx * 0.15);
+                        gain.gain.linearRampToValueAtTime(0.01, now + idx * 0.15 + 0.22);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now + idx * 0.15);
+                        osc.stop(now + idx * 0.15 + 0.22);
+                    });
+                } 
+                else if (type === 'hurt') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(190, now);
+                    osc.frequency.linearRampToValueAtTime(75, now + 0.25);
+                    gain.gain.setValueAtTime(0.18, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                }
+                else if (type === 'win') {
+                    const melody = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5];
+                    melody.forEach((freq, i) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'square';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.11);
+                        gain.gain.setValueAtTime(0.12, now + i * 0.11);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.11 + 0.24);
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(now + i * 0.11);
+                        osc.stop(now + i * 0.11 + 0.24);
+                    });
+                }
+            } catch (e) {
+                console.warn("Audio error:", e);
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('btnSoundToggle');
+            btn.innerHTML = soundEnabled ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark text-red-400"></i>';
+        }
+
+        /* -----------------------------------------------------------------
+           2. BANK SOAL IPAS KELAS 6 SD (18 Soal Terintegrasi di 3 Topik)
+        ----------------------------------------------------------------- */
+        const TOPIC_INFO = {
+            1: {
+                title: "Menjelajahi Bumi, Matahari, dan Bulan",
+                summaries: [
+                    "• <b>Matahari</b> adalah bintang pusat tata surya yang memancarkan cahaya sendiri.",
+                    "• <b>Bumi</b> adalah planet tempat tinggal kita yang berputar pada porosnya (rotasi 24 jam) dan mengelilingi Matahari (revolusi 365¼ hari).",
+                    "• <b>Bulan</b> adalah satelit alami Bumi. Posisi ketiganya menyebabkan fase bulan serta gerhana matahari dan gerhana bulan."
+                ]
+            },
+            2: {
+                title: "Dampak Gerak Rotasi dan Revolusi di Kehidupan Kita",
+                summaries: [
+                    "• <b>Dampak Rotasi Bumi:</b> Terjadinya siang dan malam, gerak semu harian Matahari dari timur ke barat, dan perbedaan 3 zona waktu di Indonesia (WIB, WITA, WIT).",
+                    "• <b>Dampak Revolusi Bumi:</b> Pergantian musim di belahan bumi, gerak semu tahunan Matahari, perubahan rasi bintang, dan dasar penanggalan Kalender Masehi."
+                ]
+            },
+            3: {
+                title: "Menjelajahi Sistem Tata Surya",
+                summaries: [
+                    "• <b>Urutan 8 Planet dari Matahari:</b> Merkurius, Venus, Bumi, Mars, Jupiter, Saturnus, Uranus, dan Neptunus.",
+                    "• <b>Planet Dalam & Luar:</b> Dipisahkan oleh sabuk asteroid antara Mars dan Jupiter.",
+                    "• <b>Ciri Unik:</b> Venus planet terpanas (efek rumah kaca), Mars planet merah, Jupiter terbesar, dan Saturnus bercincin indah."
+                ]
+            }
+        };
+
+        const QUESTION_BANK = {
+            // Topik 1: Menjelajahi Bumi, Matahari, dan Bulan (6 Soal)
+            1: [
+                {
+                    q: "Pusat dari sistem tata surya kita yang berupa bola gas panas raksasa dan memancarkan cahayanya sendiri adalah...",
+                    options: ["A. Bulan", "B. Bumi", "C. Matahari", "D. Jupiter"],
+                    correct: 2,
+                    explanation: "Matahari adalah bintang pusat tata surya yang memancarkan cahaya sendiri dan memiliki gaya gravitasi terbesar."
+                },
+                {
+                    q: "Benda langit yang menjadi satelit alami Bumi dan selalu bergerak mengelilingi Bumi adalah...",
+                    options: ["A. Phobos", "B. Bulan", "C. Asteroid", "D. Komet"],
+                    correct: 1,
+                    explanation: "Bulan adalah satu-satunya satelit alami Bumi. Bulan tidak memancarkan cahaya sendiri melainkan memantulkan cahaya Matahari."
+                },
+                {
+                    q: "Ketika posisi Bulan berada tepat di antara Matahari dan Bumi dalam satu garis lurus, maka peristiwa yang terjadi adalah...",
+                    options: ["A. Gerhana Bulan", "B. Gerhana Matahari", "C. Tahun Kabisat", "D. Bulan Purnama"],
+                    correct: 1,
+                    explanation: "Gerhana Matahari terjadi saat posisi Matahari - Bulan - Bumi sejajar, sehingga cahaya Matahari ke Bumi terhalang oleh Bulan."
+                },
+                {
+                    q: "Mengapa bentuk permukaan Bulan yang tampak dari Bumi berubah-ubah setiap malam (fase-fase bulan)?",
+                    options: [
+                        "A. Karena Bulan berubah ukuran secara alami",
+                        "B. Karena perubahan posisi Bulan saat berevolusi mengelilingi Bumi",
+                        "C. Karena tertutup oleh awan mendung setiap hari",
+                        "D. Karena Matahari berputar mengelilingi Bulan"
+                    ],
+                    correct: 1,
+                    explanation: "Fase bulan terjadi karena posisi Bulan terhadap Bumi dan Matahari berubah saat Bulan mengelilingi Bumi."
+                },
+                {
+                    q: "Mengapa waktu rotasi Bulan sama dengan waktu revolusinya ketika mengelilingi Bumi (sekitar 29,5 hari)?",
+                    options: [
+                        "A. Menyebabkan wajah Bulan yang menghadap Bumi selalu sama",
+                        "B. Menyebabkan Bulan tampak berwarna merah setiap malam",
+                        "C. Menyebabkan tidak adanya pasang surut air laut",
+                        "D. Menyebabkan Bumi berhenti berputar"
+                    ],
+                    correct: 0,
+                    explanation: "Karena periode rotasi dan revolusi Bulan sama, permukaan Bulan yang terlihat dari Bumi selalu sisi yang sama."
+                },
+                {
+                    q: "Peristiwa pasang surut air laut di Bumi terutama dipengaruhi oleh adanya...",
+                    options: [
+                        "A. Hembusan angin topan di samudra",
+                        "B. Gaya gravitasi Bulan terhadap Bumi",
+                        "C. Panas dari inti Bumi",
+                        "D. Cahaya bintang di malam hari"
+                    ],
+                    correct: 1,
+                    explanation: "Gaya tarik (gravitasi) Bulan menarik massa air laut di Bumi sehingga menimbulkan fenomena pasang dan surut."
+                }
+            ],
+
+            // Topik 2: Dampak Gerak Rotasi dan Revolusi di Kehidupan Kita (6 Soal)
+            2: [
+                {
+                    q: "Perputaran Bumi pada porosnya (sumbunya) memerlukan waktu sekitar 24 jam. Gerakan ini disebut...",
+                    options: ["A. Revolusi Bumi", "B. Rotasi Bumi", "C. Orbit Planet", "D. Gravitasi Bumi"],
+                    correct: 1,
+                    explanation: "Rotasi Bumi adalah perputaran Bumi pada porosnya yang membutuhkan waktu 23 jam 56 menit (dibulatkan 24 jam)."
+                },
+                {
+                    q: "Berikut ini yang merupakan dampak langsung dari peristiwa Rotasi Bumi dalam kehidupan kita adalah...",
+                    options: [
+                        "A. Pergantian musim di belahan bumi utara dan selatan",
+                        "B. Terjadinya pergantian siang dan malam",
+                        "C. Perubahan penampakan rasi bintang setiap bulan",
+                        "D. Terjadinya gerak semu tahunan matahari"
+                    ],
+                    correct: 1,
+                    explanation: "Rotasi Bumi menyebabkan bagian Bumi yang menghadap Matahari mengalami siang dan yang membelakangi mengalami malam."
+                },
+                {
+                    q: "Akibat rotasi Bumi, wilayah Indonesia terbagi menjadi 3 daerah waktu, yaitu...",
+                    options: [
+                        "A. WIB, WITA, dan WIT",
+                        "B. WIB, WBU, dan WBS",
+                        "C. GMT, WIB, dan WIT",
+                        "D. Pagi, Siang, dan Malam"
+                    ],
+                    correct: 0,
+                    explanation: "Setiap selisih 15° garis bujur berbeda 1 jam. Indonesia memiliki Waktu Indonesia Barat (WIB), Tengah (WITA), dan Timur (WIT)."
+                },
+                {
+                    q: "Perputaran Bumi mengelilingi Matahari memerlukan waktu 365¼ hari (1 tahun). Peristiwa ini mengakibatkan...",
+                    options: [
+                        "A. Gerak semu harian matahari dari timur ke barat",
+                        "B. Perbedaan waktu antara Jakarta dan Papua",
+                        "C. Pergantian musim dan gerak semu tahunan matahari",
+                        "D. Pemampatan bumi di bagian kutub"
+                    ],
+                    correct: 2,
+                    explanation: "Revolusi Bumi dengan kemiringan poros 23,5° menyebabkan pergantian musim serta gerak semu tahunan Matahari."
+                },
+                {
+                    q: "Sistem penanggalan Kalender Masehi (Syamsiah) yang memiliki jumlah 365 hari (dan 366 hari pada tahun kabisat) dihitung berdasarkan...",
+                    options: [
+                        "A. Kala rotasi Bumi",
+                        "B. Kala revolusi Bumi mengelilingi Matahari",
+                        "C. Kala revolusi Bulan mengelilingi Bumi",
+                        "D. Kala rotasi Matahari"
+                    ],
+                    correct: 1,
+                    explanation: "Kalender Masehi ditetapkan berdasarkan waktu Revolusi Bumi mengelilingi Matahari yaitu 365¼ hari."
+                },
+                {
+                    q: "Setiap pagi Matahari tampak terbit di sebelah timur dan tenggelam di sebelah barat. Fenomena ini disebut...",
+                    options: [
+                        "A. Gerak semu harian Matahari akibat rotasi Bumi",
+                        "B. Gerak asli Matahari mengelilingi Bumi",
+                        "C. Gerak semu tahunan Matahari",
+                        "D. Gerhana Matahari Cincin"
+                    ],
+                    correct: 0,
+                    explanation: "Bumi berotasi dari barat ke timur, sehingga Matahari seolah-olah bergerak dari timur ke barat (gerak semu harian)."
+                }
+            ],
+
+            // Topik 3: Menjelajahi Sistem Tata Surya (6 Soal)
+            3: [
+                {
+                    q: "Planet yang letaknya paling dekat dengan Matahari dan memiliki waktu revolusi tercepat adalah...",
+                    options: ["A. Venus", "B. Merkurius", "C. Mars", "D. Bumi"],
+                    correct: 1,
+                    explanation: "Merkurius adalah planet terdekat dari Matahari sekaligus planet terkecil di sistem tata surya kita."
+                },
+                {
+                    q: "Planet yang mendapat julukan 'Bintang Kejora' dan merupakan planet terpanas di tata surya karena efek rumah kaca atmosfernya adalah...",
+                    options: ["A. Merkurius", "B. Mars", "C. Venus", "D. Saturnus"],
+                    correct: 2,
+                    explanation: "Venus memiliki atmosfer tebal kaya karbon dioksida yang memerangkap panas, menjadikannya planet terpanas."
+                },
+                {
+                    q: "Planet keempat dari Matahari yang dijuluki sebagai 'Planet Merah' serta memiliki dua satelit alami bernama Phobos dan Deimos adalah...",
+                    options: ["A. Mars", "B. Jupiter", "C. Uranus", "D. Neptunus"],
+                    correct: 0,
+                    explanation: "Mars tampak kemerahan karena permukaannya kaya akan oksida besi (karat) dan memiliki satelit Phobos serta Deimos."
+                },
+                {
+                    q: "Planet terbesar di dalam sistem tata surya kita yang termasuk kelompok raksasa gas adalah...",
+                    options: ["A. Saturnus", "B. Jupiter", "C. Uranus", "D. Bumi"],
+                    correct: 1,
+                    explanation: "Jupiter adalah planet terbesar di tata surya dengan diameter sekitar 11 kali lipat diameter Bumi."
+                },
+                {
+                    q: "Keindahan planet ini sangat terkenal karena dikelilingi oleh cincin raksasa yang tersusun dari bongkahan es dan debu kosmik. Planet apakah itu?",
+                    options: ["A. Venus", "B. Mars", "C. Saturnus", "D. Merkurius"],
+                    correct: 2,
+                    explanation: "Saturnus adalah planet keenam dari Matahari yang terkenal dengan cincin tebal dan indahnya."
+                },
+                {
+                    q: "Kumpulan batuan kosmik (Sabuk Asteroid) yang memisahkan kelompok Planet Dalam dan Planet Luar terletak di antara orbit planet...",
+                    options: [
+                        "A. Bumi dan Mars",
+                        "B. Mars dan Jupiter",
+                        "C. Jupiter dan Saturnus",
+                        "D. Merkurius dan Venus"
+                    ],
+                    correct: 1,
+                    explanation: "Sabuk Asteroid utama berada di antara garis edar (orbit) planet Mars dan planet Jupiter."
+                }
+            ]
+        };
+
+        /* -----------------------------------------------------------------
+           3. STATE PERMAINAN & KONFIGURASI LOBI
+        ----------------------------------------------------------------- */
+        let selectedCharacter = 'bima'; // 'bima' atau 'obit'
+        let selectedTopic = 1;          // 1, 2, atau 3
+        let selectedLevel = 1;          // 1, 2, atau 3
+        let selectedDifficulty = 'normal';
+
+        function goToLobby() {
+            initAudio();
+            playSound('coin');
+            document.getElementById('splashScreen').classList.add('hidden');
+            document.getElementById('lobbyScreen').classList.remove('hidden');
+        }
+
+        function backToSplash() {
+            playSound('jump');
+            document.getElementById('lobbyScreen').classList.add('hidden');
+            document.getElementById('splashScreen').classList.remove('hidden');
+        }
+
+        function openEducationModal() {
+            playSound('block');
+            document.getElementById('educationModal').classList.remove('hidden');
+        }
+
+        function closeEducationModal() {
+            document.getElementById('educationModal').classList.add('hidden');
+        }
+
+        function selectCharacter(charId) {
+            selectedCharacter = charId;
+            playSound('jump');
+            const cardBima = document.getElementById('charCardBima');
+            const cardObit = document.getElementById('charCardObit');
+            if (charId === 'bima') {
+                cardBima.className = "cursor-pointer rounded-2xl p-3.5 border-4 border-orange-500 bg-amber-100 shadow-[0_5px_0_#ea580c] transition-all flex items-start gap-3 relative";
+                cardObit.className = "cursor-pointer rounded-2xl p-3.5 border-4 border-slate-300 bg-white hover:border-cyan-500 transition-all flex items-start gap-3 relative";
+            } else {
+                cardObit.className = "cursor-pointer rounded-2xl p-3.5 border-4 border-cyan-600 bg-cyan-50 shadow-[0_5px_0_#0891b2] transition-all flex items-start gap-3 relative";
+                cardBima.className = "cursor-pointer rounded-2xl p-3.5 border-4 border-slate-300 bg-white hover:border-orange-400 transition-all flex items-start gap-3 relative";
+            }
+        }
+
+        function selectTopic(topicId) {
+            selectedTopic = topicId;
+            playSound('coin');
+            [1, 2, 3].forEach(id => {
+                const btn = document.getElementById('topicBtn' + id);
+                if (id === topicId) {
+                    btn.className = "w-full text-left p-3 rounded-xl border-4 border-slate-900 bg-amber-300 shadow-[0_4px_0_#1e293b] transition-all flex items-center gap-3";
+                } else {
+                    btn.className = "w-full text-left p-3 rounded-xl border-2 border-slate-400 bg-white/80 hover:bg-white transition-all flex items-center gap-3";
+                }
+            });
+            const summaryBox = document.getElementById('topicSummaryBox');
+            summaryBox.innerHTML = TOPIC_INFO[topicId].summaries.map(s => `<p>${s}</p>`).join('');
+        }
+
+        function updateLevelPreview() {
+            const lvl = parseInt(document.getElementById('levelSelectInput').value);
+            selectedLevel = lvl;
+            const desc = document.getElementById('levelDescPreview');
+            if (lvl === 1) {
+                desc.innerHTML = `<i class="fa-solid fa-moon text-emerald-700 mr-1"></i> <b>Level 1 - Lembah Bulan:</b> Tema kawah terang dengan lompatan gravitasi ringan dan rintangan mudah.`;
+            } else if (lvl === 2) {
+                desc.innerHTML = `<i class="fa-solid fa-cloud-moon text-purple-700 mr-1"></i> <b>Level 2 - Langit Nebula:</b> Tema pijakan awan gas kosmik warna-warni yang melayang, rintangan sedang.`;
+            } else {
+                desc.innerHTML = `<i class="fa-solid fa-fire-flame-curved text-red-600 mr-1"></i> <b>Level 3 - Kastil Matahari:</b> Tema benteng api dan suar surya tempat Boss terakhir berada, tantangan tinggi.`;
+            }
+        }
+
+        /* -----------------------------------------------------------------
+           4. ENGINE GAMEPLAY 2D PLATFORMER (SUPER MARIO ORBIT STYLE)
+        ----------------------------------------------------------------- */
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let gameRunning = false;
+        let gamePaused = false;
+        let animFrameId = null;
+
+        // Input state
+        const keys = { left: false, right: false, jump: false };
+
+        // Game Session Data
+        let studentName = "Kapten Cilik";
+        let studentClass = "Kelas 6 SD";
+        let lives = 3;
+        let maxLives = 3;
+        let coins = 0;
+        let score = 0;
+        let startTime = 0;
+        let elapsedSeconds = 0;
+        let timerInterval = null;
+
+        // World & Entities
+        const WORLD_WIDTH = 3400;
+        let groundY = 450;
+        let cameraX = 0;
+
+        let player = {
+            x: 100,
+            y: 300,
+            w: 46,
+            h: 54,
+            vx: 0,
+            vy: 0,
+            speed: 5.2,
+            jumpPower: -13.8,
+            gravity: 0.56,
+            onGround: false,
+            poweredUp: false,
+            invincibleTimer: 0,
+            facing: 1
+        };
+
+        let platforms = [];
+        let quizBlocks = [];
+        let coinItems = [];
+        let enemies = [];
+        let mushrooms = [];
+        let particles = [];
+        let finishGoal = { x: 3180, y: 270, w: 80, h: 180 };
+
+        // Quiz Tracking in Session
+        let activeQuestions = [];
+        let currentQuizBlock = null;
+        let answeredQuizzes = []; // Stores { q, chosenIndex, correctIndex, isCorrect, explanation, options }
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            canvas.width = canvas.parentElement.clientWidth || window.innerWidth;
+            canvas.height = canvas.parentElement.clientHeight || (window.innerHeight - 60);
+            groundY = canvas.height - 90;
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        function buildLevelWorld(levelNum) {
+            resizeCanvas();
+
+            // Set physics per level & character
+            const baseGravity = levelNum === 1 ? 0.48 : (levelNum === 2 ? 0.54 : 0.60);
+            player.gravity = selectedCharacter === 'obit' ? baseGravity * 0.92 : baseGravity;
+            player.jumpPower = selectedCharacter === 'bima' ? -13.8 : -13.2;
+            player.speed = selectedCharacter === 'bima' ? 5.5 : 5.1;
+            player.x = 90;
+            player.y = groundY - 80;
+            player.vx = 0;
+            player.vy = 0;
+            player.poweredUp = false;
+            player.invincibleTimer = 0;
+
+            platforms = [];
+            quizBlocks = [];
+            coinItems = [];
+            enemies = [];
+            mushrooms = [];
+            particles = [];
+
+            // Ground segments with strategic pits (jurang)
+            const groundSegments = [
+                { x: 0, w: 750 },
+                { x: 860, w: 720 },
+                { x: 1700, w: 740 },
+                { x: 2560, w: 900 }
+            ];
+            groundSegments.forEach(seg => {
+                platforms.push({ x: seg.x, y: groundY, w: seg.w, h: 120, isGround: true });
+            });
+
+            // Elevated Platforms for Mario-style jumping
+            const elevated = [
+                { x: 320, y: groundY - 105, w: 160, h: 26 },
+                { x: 600, y: groundY - 135, w: 140, h: 26 },
+                { x: 960, y: groundY - 110, w: 180, h: 26 },
+                { x: 1260, y: groundY - 150, w: 160, h: 26 },
+                { x: 1560, y: groundY - 125, w: 130, h: 26 },
+                { x: 1820, y: groundY - 110, w: 190, h: 26 },
+                { x: 2150, y: groundY - 145, w: 170, h: 26 },
+                { x: 2430, y: groundY - 120, w: 130, h: 26 },
+                { x: 2740, y: groundY - 110, w: 180, h: 26 }
+            ];
+            elevated.forEach(p => platforms.push({ ...p, isGround: false }));
+
+            // 4 Blok Kuis [?] di setiap level (mudah dijangkau & disundul dari bawah)
+            const qPositions = [
+                { x: 460, y: groundY - 125, idx: 0 },
+                { x: 1150, y: groundY - 125, idx: 1 },
+                { x: 1980, y: groundY - 125, idx: 2 },
+                { x: 2680, y: groundY - 125, idx: 3 }
+            ];
+            qPositions.forEach(qp => {
+                quizBlocks.push({
+                    x: qp.x,
+                    y: qp.y,
+                    w: 48,
+                    h: 48,
+                    quizIndex: qp.idx,
+                    answered: false,
+                    bumpOffset: 0
+                });
+            });
+
+            // Coins along platforms & arcs
+            const coinCoords = [
+                [250, groundY - 50], [295, groundY - 50], [360, groundY - 150], [410, groundY - 150],
+                [640, groundY - 180], [690, groundY - 180], [1000, groundY - 155], [1050, groundY - 155],
+                [1300, groundY - 195], [1350, groundY - 195], [1600, groundY - 170],
+                [1860, groundY - 155], [1920, groundY - 155], [2200, groundY - 190], [2250, groundY - 190],
+                [2780, groundY - 155], [2840, groundY - 155], [2980, groundY - 55], [3030, groundY - 55]
+            ];
+            coinCoords.forEach(c => {
+                coinItems.push({ x: c[0], y: c[1], r: 13, collected: false });
+            });
+
+            // Enemies (Patrolling Space Goombas / Solar Boss)
+            const speedMul = levelNum === 1 ? 1.3 : (levelNum === 2 ? 1.8 : 2.3);
+            enemies = [
+                { x: 540, y: groundY - 40, w: 40, h: 40, vx: speedMul, minX: 430, maxX: 710, alive: true, isBoss: false },
+                { x: 1100, y: groundY - 40, w: 40, h: 40, vx: -speedMul, minX: 900, maxX: 1350, alive: true, isBoss: false },
+                { x: 1440, y: groundY - 40, w: 40, h: 40, vx: speedMul, minX: 1360, maxX: 1550, alive: true, isBoss: false },
+                { x: 2050, y: groundY - 40, w: 40, h: 40, vx: speedMul, minX: 1750, maxX: 2380, alive: true, isBoss: false },
+                { x: 2920, y: groundY - (levelNum === 3 ? 64 : 40), w: levelNum === 3 ? 64 : 42, h: levelNum === 3 ? 64 : 42, vx: speedMul * 1.15, minX: 2620, maxX: 3100, alive: true, isBoss: levelNum === 3 }
+            ];
+
+            finishGoal = { x: 3200, y: groundY - 170, w: 70, h: 170 };
+        }
+
+        function startGame() {
+            initAudio();
+            playSound('win');
+
+            studentName = document.getElementById('studentNameInput').value.trim() || "Kapten Cilik";
+            studentClass = document.getElementById('studentClassInput').value;
+            selectedLevel = parseInt(document.getElementById('levelSelectInput').value);
+            selectedDifficulty = document.getElementById('difficultySelectInput').value;
+
+            // Lives based on difficulty
+            if (selectedDifficulty === 'relaxed') {
+                lives = 5; maxLives = 5;
+            } else if (selectedDifficulty === 'challenge') {
+                lives = 2; maxLives = 2;
+            } else {
+                lives = 3; maxLives = 3;
+            }
+
+            coins = 0;
+            score = 0;
+            answeredQuizzes = [];
+
+            // Shuffle and pick 4 questions from the chosen topic
+            const pool = [...QUESTION_BANK[selectedTopic]];
+            for (let i = pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
+            }
+            activeQuestions = pool.slice(0, 4);
+
+            // Switch screens
+            document.getElementById('lobbyScreen').classList.add('hidden');
+            document.getElementById('resultModal').classList.add('hidden');
+            document.getElementById('pauseModal').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+
+            // Update HUD Header
+            document.getElementById('hudStudentName').textContent = studentName;
+            document.getElementById('hudStudentClass').textContent = studentClass;
+            const levelNames = {
+                1: "Level 1: Lembah Bulan",
+                2: "Level 2: Langit Nebula",
+                3: "Level 3: Kastil Matahari"
+            };
+            document.getElementById('hudLevelName').textContent = levelNames[selectedLevel];
+            updateHUD();
+
+            buildLevelWorld(selectedLevel);
+
+            // Timer
+            startTime = Date.now();
+            elapsedSeconds = 0;
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (gameRunning && !gamePaused) {
+                    elapsedSeconds++;
+                    const mins = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0');
+                    const secs = String(elapsedSeconds % 60).padStart(2, '0');
+                    document.getElementById('hudTimer').textContent = `${mins}:${secs}`;
+                }
+            }, 1000);
+
+            gameRunning = true;
+            gamePaused = false;
+            if (animFrameId) cancelAnimationFrame(animFrameId);
+            gameLoop();
+        }
+
+        function updateHUD() {
+            document.getElementById('hudLives').textContent = "❤️‍🔥".repeat(Math.max(0, lives));
+            document.getElementById('hudCoins').textContent = coins;
+            document.getElementById('hudScore').textContent = score;
+            document.getElementById('hudQuizProgress').textContent = `${answeredQuizzes.length}/4`;
+
+            const pct = Math.min(100, Math.max(0, Math.round((player.x / finishGoal.x) * 100)));
+            document.getElementById('hudDistancePct').textContent = `${pct}%`;
+            document.getElementById('hudProgressBar').style.width = `${pct}%`;
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('gameToast');
+            toast.textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2400);
+        }
+
+        /* -----------------------------------------------------------------
+           5. MEKANIKA UPDATE FISIKA, TABRAKAN & BLOK KUIS [?]
+        ----------------------------------------------------------------- */
+        function updateGamePhysics() {
+            // Horizontal Movement
+            if (keys.left) {
+                player.vx = -player.speed;
+                player.facing = -1;
+            } else if (keys.right) {
+                player.vx = player.speed;
+                player.facing = 1;
+            } else {
+                player.vx *= 0.8;
+                if (Math.abs(player.vx) < 0.1) player.vx = 0;
+            }
+
+            // Jump
+            if (keys.jump && player.onGround) {
+                player.vy = player.jumpPower;
+                player.onGround = false;
+                playSound('jump');
+            }
+
+            // Apply Gravity
+            player.vy += player.gravity;
+            if (player.vy > 14) player.vy = 14;
+
+            // Move X
+            player.x += player.vx;
+            if (player.x < 20) player.x = 20;
+            if (player.x > WORLD_WIDTH - player.w) player.x = WORLD_WIDTH - player.w;
+
+            // Move Y & Platform Collisions
+            const prevBottom = player.y + player.h;
+            const prevTop = player.y;
+            player.y += player.vy;
+            player.onGround = false;
+
+            // Check Platforms
+            for (const p of platforms) {
+                if (player.x + player.w > p.x + 6 && player.x < p.x + p.w - 6) {
+                    // Landing on top of platform
+                    if (player.vy >= 0 && prevBottom <= p.y + 14 && player.y + player.h >= p.y) {
+                        player.y = p.y - player.h;
+                        player.vy = 0;
+                        player.onGround = true;
+                    }
+                }
+            }
+
+            // Check Quiz Blocks [?]
+            for (const qb of quizBlocks) {
+                if (qb.bumpOffset > 0) qb.bumpOffset -= 1.5;
+
+                const overlapX = player.x + player.w > qb.x + 4 && player.x < qb.x + qb.w - 4;
+                if (overlapX) {
+                    // Landing on top of Quiz Block
+                    if (player.vy >= 0 && prevBottom <= qb.y + 12 && player.y + player.h >= qb.y) {
+                        player.y = qb.y - player.h;
+                        player.vy = 0;
+                        player.onGround = true;
+                    }
+                    // Hitting Quiz Block [?] from BELOW (Menyundul dari bawah)
+                    else if (player.vy < 0 && prevTop >= qb.y + qb.h - 14 && player.y <= qb.y + qb.h) {
+                        player.y = qb.y + qb.h;
+                        player.vy = 2;
+                        qb.bumpOffset = 10;
+
+                        if (!qb.answered) {
+                            triggerQuizBlockModal(qb);
+                        } else {
+                            playSound('block');
+                        }
+                    }
+                }
+            }
+
+            // Pit Fall Check (Jatuh ke jurang)
+            if (player.y > canvas.height + 80) {
+                handlePlayerHurt("Aduh! Terjatuh ke kawah kosmik!");
+            }
+
+            // Collect Coins
+            for (const c of coinItems) {
+                if (!c.collected) {
+                    const dx = (player.x + player.w / 2) - c.x;
+                    const dy = (player.y + player.h / 2) - c.y;
+                    if (Math.hypot(dx, dy) < c.r + 24) {
+                        c.collected = true;
+                        coins++;
+                        score += 20;
+                        playSound('coin');
+                        spawnSparkles(c.x, c.y, '#FACC15');
+                        updateHUD();
+                    }
+                }
+            }
+
+            // Collect Smart Mushrooms (Jamur Pintar)
+            for (let i = mushrooms.length - 1; i >= 0; i--) {
+                const m = mushrooms[i];
+                m.y += m.vy;
+                if (m.y > m.targetY) m.vy = 0;
+
+                if (
+                    player.x < m.x + m.w &&
+                    player.x + player.w > m.x &&
+                    player.y < m.y + m.h &&
+                    player.y + player.h > m.y
+                ) {
+                    mushrooms.splice(i, 1);
+                    player.poweredUp = true;
+                    score += 50;
+                    playSound('correct');
+                    showToast("🍄 Jamur Pintar Diambil! Perisai Energi Aktif!");
+                    updateHUD();
+                }
+            }
+
+            // Update & Collide Enemies
+            for (const en of enemies) {
+                if (!en.alive) continue;
+                en.x += en.vx;
+                if (en.x < en.minX || en.x + en.w > en.maxX) {
+                    en.vx *= -1;
+                }
+
+                // Collision with Player
+                if (
+                    player.x + player.w - 8 > en.x &&
+                    player.x + 8 < en.x + en.w &&
+                    player.y + player.h > en.y &&
+                    player.y < en.y + en.h
+                ) {
+                    // Stomp from above
+                    if (player.vy > 0 && prevBottom <= en.y + 18) {
+                        en.alive = false;
+                        player.vy = -10;
+                        score += en.isBoss ? 200 : 50;
+                        playSound('coin');
+                        spawnSparkles(en.x + en.w / 2, en.y + en.h / 2, '#F97316');
+                        showToast(en.isBoss ? "🔥 Boss Suar Surya Dikalahkan! +200 Poin!" : "💥 Alien Pengganggu Dikalahkan! +50 Poin!");
+                        updateHUD();
+                    } else if (player.invincibleTimer <= 0) {
+                        if (player.poweredUp) {
+                            player.poweredUp = false;
+                            player.invincibleTimer = 90;
+                            playSound('hurt');
+                            showToast("🛡️ Perisai Jamur Pintar Melindungimu!");
+                        } else {
+                            handlePlayerHurt("Tertabrak penjaga kosmik!");
+                        }
+                    }
+                }
+            }
+
+            if (player.invincibleTimer > 0) player.invincibleTimer--;
+
+            // Update Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const pt = particles[i];
+                pt.x += pt.vx;
+                pt.y += pt.vy;
+                pt.life--;
+                if (pt.life <= 0) particles.splice(i, 1);
+            }
+
+            // Smooth Camera Follow
+            const targetCamX = player.x - canvas.width * 0.32;
+            cameraX += (targetCamX - cameraX) * 0.12;
+            cameraX = Math.max(0, Math.min(WORLD_WIDTH - canvas.width, cameraX));
+
+            updateHUD();
+
+            // Check Finish Goal Rocket OR All 4 Quizzes Completed at Rocket
+            if (player.x + player.w > finishGoal.x) {
+                finishGameSession(true);
+            }
+        }
+
+        function handlePlayerHurt(reasonMsg) {
+            playSound('hurt');
+            lives--;
+            updateHUD();
+
+            if (lives <= 0) {
+                finishGameSession(false);
+            } else {
+                showToast(`⚠️ ${reasonMsg} Tersisa ${lives} Hati.`);
+                // Respawn safely near current progress
+                player.vy = -6;
+                player.vx = 0;
+                player.y = groundY - 180;
+                // Find nearest solid ground segment
+                const safeSeg = platforms.find(p => p.isGround && player.x >= p.x && player.x <= p.x + p.w) || platforms[0];
+                player.x = Math.max(safeSeg.x + 40, Math.min(player.x - 80, safeSeg.x + safeSeg.w - 80));
+                player.invincibleTimer = 100;
+            }
+        }
+
+        function spawnSparkles(x, y, color) {
+            for (let i = 0; i < 12; i++) {
+                particles.push({
+                    x, y,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: (Math.random() - 0.5) * 6,
+                    color,
+                    life: 25
+                });
+            }
+        }
+
+        /* -----------------------------------------------------------------
+           6. SISTEM BLOK KUIS EDUKASI [?] POP-UP MODAL
+        ----------------------------------------------------------------- */
+        function triggerQuizBlockModal(blockObj) {
+            playSound('block');
+            gamePaused = true;
+            keys.left = false;
+            keys.right = false;
+            keys.jump = false;
+
+            currentQuizBlock = blockObj;
+            const qData = activeQuestions[blockObj.quizIndex];
+
+            document.getElementById('quizCounterBadge').textContent = `Blok Kuis ${answeredQuizzes.length + 1} / 4`;
+            document.getElementById('quizQuestionText').textContent = qData.q;
+
+            const optsContainer = document.getElementById('quizOptionsContainer');
+            optsContainer.innerHTML = '';
+
+            qData.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3.5 rounded-xl border-3 border-2 border-slate-800 bg-white hover:bg-amber-100 font-extrabold text-sm md:text-base text-slate-900 transition-all flex items-center justify-between shadow-[0_4px_0_#1e293b]";
+                btn.innerHTML = `<span>${optText}</span> <i class="fa-regular fa-circle text-slate-500"></i>`;
+                btn.onclick = () => submitQuizAnswer(idx, qData, btn);
+                optsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quizFeedbackBox').classList.add('hidden');
+            document.getElementById('btnContinueAfterQuiz').classList.add('hidden');
+            document.getElementById('quizModal').classList.remove('hidden');
+        }
+
+        function submitQuizAnswer(chosenIdx, qData, clickedBtn) {
+            // Lock all option buttons
+            const allBtns = document.getElementById('quizOptionsContainer').querySelectorAll('button');
+            allBtns.forEach(b => b.disabled = true);
+
+            const isCorrect = chosenIdx === qData.correct;
+            currentQuizBlock.answered = true;
+
+            answeredQuizzes.push({
+                q: qData.q,
+                options: qData.options,
+                chosenIndex: chosenIdx,
+                correctIndex: qData.correct,
+                isCorrect: isCorrect,
+                explanation: qData.explanation
+            });
+
+            const fbBox = document.getElementById('quizFeedbackBox');
+            const fbTitle = document.getElementById('quizFeedbackTitle');
+            const fbExp = document.getElementById('quizFeedbackExplanation');
+
+            fbBox.classList.remove('hidden');
+
+            if (isCorrect) {
+                playSound('correct');
+                score += 100;
+                clickedBtn.className = "w-full text-left p-3.5 rounded-xl border-3 border-2 border-emerald-700 bg-emerald-200 font-extrabold text-sm md:text-base text-emerald-950 flex items-center justify-between shadow-[0_4px_0_#047857]";
+                clickedBtn.innerHTML = `<span>${qData.options[chosenIdx]}</span> <i class="fa-solid fa-circle-check text-emerald-700 text-lg"></i>`;
+
+                fbBox.className = "rounded-2xl p-4 mb-4 border-2 border-emerald-600 bg-emerald-100";
+                fbTitle.className = "font-game font-extrabold text-lg mb-1 text-emerald-800";
+                fbTitle.innerHTML = `✅ JAWABAN BENAR! (+100 Poin & 🍄 Jamur Pintar)`;
+                fbExp.textContent = qData.explanation;
+
+                // Spawn Smart Mushroom on top of the block
+                mushrooms.push({
+                    x: currentQuizBlock.x + 6,
+                    y: currentQuizBlock.y - 38,
+                    targetY: currentQuizBlock.y - 38,
+                    w: 36,
+                    h: 36,
+                    vy: -1.5
+                });
+            } else {
+                playSound('wrong');
+                clickedBtn.className = "w-full text-left p-3.5 rounded-xl border-3 border-2 border-red-700 bg-red-200 font-extrabold text-sm md:text-base text-red-950 flex items-center justify-between shadow-[0_4px_0_#b91c1c]";
+                clickedBtn.innerHTML = `<span>${qData.options[chosenIdx]}</span> <i class="fa-solid fa-circle-xmark text-red-700 text-lg"></i>`;
+
+                // Highlight correct answer
+                allBtns[qData.correct].className = "w-full text-left p-3.5 rounded-xl border-3 border-2 border-emerald-700 bg-emerald-100 font-extrabold text-sm md:text-base text-emerald-900 flex items-center justify-between";
+
+                fbBox.className = "rounded-2xl p-4 mb-4 border-2 border-red-600 bg-red-100";
+                fbTitle.className = "font-game font-extrabold text-lg mb-1 text-red-800";
+                fbTitle.innerHTML = `❌ KURANG TEPAT! Mari Belajar Bersama:`;
+                fbExp.textContent = qData.explanation;
+            }
+
+            updateHUD();
+            document.getElementById('btnContinueAfterQuiz').classList.remove('hidden');
+        }
+
+        function closeQuizAndResume() {
+            document.getElementById('quizModal').classList.add('hidden');
+            gamePaused = false;
+            if (answeredQuizzes.length === 4) {
+                showToast("🎉 Ke-4 Blok Kuis Terjawab! Menuju Roket Finish di Ujung Kanan!");
+            }
+        }
+
+        /* -----------------------------------------------------------------
+           7. RENDERER CANVAS 2D (Super Mario Bros Orbit Theme)
+        ----------------------------------------------------------------- */
+        function renderGameScene() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Bright Super Mario Orbit Sky Gradient based on Level
+            const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            if (selectedLevel === 1) {
+                // Level 1: Lembah Bulan (Bright Royal Space Blue to Sky Blue)
+                skyGrad.addColorStop(0, '#1D4ED8');
+                skyGrad.addColorStop(0.55, '#3B82F6');
+                skyGrad.addColorStop(1, '#93C5FD');
+            } else if (selectedLevel === 2) {
+                // Level 2: Langit Nebula (Vibrant Candy Purple to Pink-Blue)
+                skyGrad.addColorStop(0, '#4C1D95');
+                skyGrad.addColorStop(0.55, '#7C3AED');
+                skyGrad.addColorStop(1, '#F472B6');
+            } else {
+                // Level 3: Kastil Matahari (Fiery Mario Bowser Sunset Sky)
+                skyGrad.addColorStop(0, '#7F1D1D');
+                skyGrad.addColorStop(0.55, '#DC2626');
+                skyGrad.addColorStop(1, '#F59E0B');
+            }
+            ctx.fillStyle = skyGrad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 2. Parallax Super Mario Clouds, Hills & Space Planets
+            ctx.save();
+            const bgParallax = cameraX * 0.25;
+
+            // Smiling Sun / Bright Moon
+            const sunX = 280 - (bgParallax % 900);
+            ctx.fillStyle = selectedLevel === 1 ? '#FEF08A' : (selectedLevel === 2 ? '#FDE047' : '#FFEDD5');
+            ctx.beginPath();
+            ctx.arc(sunX, 95, 44, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#F59E0B';
+            ctx.stroke();
+
+            // Ringed Planet Saturn
+            const satX = 760 - (bgParallax % 1100);
+            ctx.fillStyle = '#38BDF8';
+            ctx.beginPath();
+            ctx.arc(satX, 120, 30, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#1E293B';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.strokeStyle = '#FACC15';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.ellipse(satX, 120, 55, 13, -0.2, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Cartoon Mario White Clouds along the sky
+            for (let i = 0; i < 6; i++) {
+                const cx = ((i * 320) - (cameraX * 0.35) % 1920 + 1920) % 1920 - 100;
+                const cy = 75 + (i % 2) * 45;
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.beginPath();
+                ctx.arc(cx, cy, 22, 0, Math.PI * 2);
+                ctx.arc(cx + 22, cy - 8, 26, 0, Math.PI * 2);
+                ctx.arc(cx + 46, cy, 22, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.restore();
+
+            // Apply Camera Transform
+            ctx.save();
+            ctx.translate(-cameraX, 0);
+
+            // 3. Decorative Super Mario Hills & Green Pipes on Ground
+            const hillPositions = [120, 560, 1020, 1850, 2680];
+            hillPositions.forEach((hx, idx) => {
+                ctx.fillStyle = selectedLevel === 3 ? '#B45309' : '#16A34A';
+                ctx.beginPath();
+                ctx.arc(hx + 70, groundY, idx % 2 === 0 ? 75 : 55, Math.PI, 0);
+                ctx.fill();
+                ctx.strokeStyle = '#14532D';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            });
+
+            // 4. Draw Platforms & Mario Brick Ground
+            for (const p of platforms) {
+                if (p.isGround) {
+                    // Mario Brick Soil Body
+                    ctx.fillStyle = selectedLevel === 1 ? '#D97706' : (selectedLevel === 2 ? '#9333EA' : '#991B1B');
+                    ctx.fillRect(p.x, p.y, p.w, p.h);
+
+                    // Brick Grid Pattern
+                    ctx.strokeStyle = '#451A03';
+                    ctx.lineWidth = 2;
+                    for (let bx = p.x; bx < p.x + p.w; bx += 40) {
+                        ctx.beginPath();
+                        ctx.moveTo(bx, p.y + 16);
+                        ctx.lineTo(bx, p.y + p.h);
+                        ctx.stroke();
+                    }
+                    // Bright Green Mario Turf / Top Crust
+                    ctx.fillStyle = selectedLevel === 1 ? '#22C55E' : (selectedLevel === 2 ? '#38BDF8' : '#F97316');
+                    ctx.fillRect(p.x, p.y, p.w, 16);
+                    ctx.strokeStyle = '#1E293B';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(p.x, p.y, p.w, p.h);
+                } else {
+                    // Floating Super Mario Brick Platform
+                    ctx.fillStyle = '#B45309';
+                    ctx.beginPath();
+                    ctx.roundRect(p.x, p.y, p.w, p.h, 6);
+                    ctx.fill();
+                    ctx.strokeStyle = '#1E293B';
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+
+                    // Brick lines on floating platform
+                    ctx.strokeStyle = '#78350F';
+                    ctx.lineWidth = 2;
+                    for (let lx = p.x + 32; lx < p.x + p.w; lx += 32) {
+                        ctx.beginPath();
+                        ctx.moveTo(lx, p.y);
+                        ctx.lineTo(lx, p.y + p.h);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // 5. Draw 4 Super Mario Quiz Blocks [?]
+            for (const qb of quizBlocks) {
+                const drawY = qb.y - qb.bumpOffset;
+                ctx.fillStyle = qb.answered ? '#94A3B8' : '#FACC15';
+                ctx.beginPath();
+                ctx.roundRect(qb.x, drawY, qb.w, qb.h, 8);
+                ctx.fill();
+                ctx.lineWidth = 3.5;
+                ctx.strokeStyle = '#1E293B';
+                ctx.stroke();
+
+                // Corner rivets like Mario [?] block
+                ctx.fillStyle = '#78350F';
+                ctx.fillRect(qb.x + 5, drawY + 5, 4, 4);
+                ctx.fillRect(qb.x + qb.w - 9, drawY + 5, 4, 4);
+                ctx.fillRect(qb.x + 5, drawY + qb.h - 9, 4, 4);
+                ctx.fillRect(qb.x + qb.w - 9, drawY + qb.h - 9, 4, 4);
+
+                ctx.fillStyle = qb.answered ? '#334155' : '#9A3412';
+                ctx.font = '900 28px "Baloo 2", Fredoka, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(qb.answered ? '✓' : '?', qb.x + qb.w / 2, drawY + qb.h / 2 + 2);
+            }
+
+            // 5. Draw Coins
+            for (const c of coinItems) {
+                if (c.collected) continue;
+                ctx.fillStyle = '#FACC15';
+                ctx.beginPath();
+                ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#CA8A04';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                ctx.fillStyle = '#854D0E';
+                ctx.font = 'bold 12px Fredoka';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('★', c.x, c.y + 1);
+            }
+
+            // 6. Draw Smart Mushrooms (Jamur Pintar)
+            for (const m of mushrooms) {
+                // Cap
+                ctx.fillStyle = '#EF4444';
+                ctx.beginPath();
+                ctx.arc(m.x + m.w / 2, m.y + 16, 16, Math.PI, 0);
+                ctx.fill();
+                // White spots
+                ctx.fillStyle = '#FFFFFF';
+                ctx.beginPath();
+                ctx.arc(m.x + 12, m.y + 10, 4, 0, Math.PI * 2);
+                ctx.arc(m.x + 24, m.y + 10, 4, 0, Math.PI * 2);
+                ctx.fill();
+                // Stem
+                ctx.fillStyle = '#FDE68A';
+                ctx.fillRect(m.x + 10, m.y + 16, 16, 16);
+            }
+
+            // 7. Draw Enemies (Alien Goomba / Solar Boss)
+            for (const en of enemies) {
+                if (!en.alive) continue;
+                ctx.fillStyle = en.isBoss ? '#EF4444' : '#A855F7';
+                ctx.beginPath();
+                ctx.arc(en.x + en.w / 2, en.y + en.h / 2, en.w / 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Eyes
+                ctx.fillStyle = '#FEF08A';
+                ctx.beginPath();
+                ctx.arc(en.x + en.w * 0.33, en.y + en.h * 0.4, 4, 0, Math.PI * 2);
+                ctx.arc(en.x + en.w * 0.67, en.y + en.h * 0.4, 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // 8. Draw Finish Goal Rocket Base
+            ctx.fillStyle = '#E2E8F0';
+            ctx.fillRect(finishGoal.x + 15, finishGoal.y + 35, 40, 110);
+            ctx.fillStyle = '#EF4444';
+            ctx.beginPath();
+            ctx.moveTo(finishGoal.x + 35, finishGoal.y);
+            ctx.lineTo(finishGoal.x + 10, finishGoal.y + 38);
+            ctx.lineTo(finishGoal.x + 60, finishGoal.y + 38);
+            ctx.closePath();
+            ctx.fill();
+            // Window on rocket
+            ctx.fillStyle = '#38BDF8';
+            ctx.beginPath();
+            ctx.arc(finishGoal.x + 35, finishGoal.y + 70, 11, 0, Math.PI * 2);
+            ctx.fill();
+            // Label FINISH
+            ctx.fillStyle = '#FACC15';
+            ctx.font = 'bold 14px Fredoka';
+            ctx.textAlign = 'center';
+            ctx.fillText('FINISH ORBIT', finishGoal.x + 35, finishGoal.y - 12);
+
+            // 9. Draw Player (Kapten Bima or O-Bit Robot)
+            if (player.invincibleTimer % 4 < 2) {
+                // Shield aura if powered up
+                if (player.poweredUp) {
+                    ctx.strokeStyle = '#38BDF8';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(player.x + player.w / 2, player.y + player.h / 2, 34, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                if (selectedCharacter === 'bima') {
+                    // Kapten Bima: White-Orange Astronaut Suit
+                    ctx.fillStyle = '#F97316';
+                    ctx.beginPath();
+                    ctx.roundRect(player.x + 8, player.y + 24, 30, 22, 6);
+                    ctx.fill();
+                    // Helmet
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.beginPath();
+                    ctx.arc(player.x + 23, player.y + 16, 15, 0, Math.PI * 2);
+                    ctx.fill();
+                    // Visor
+                    ctx.fillStyle = '#38BDF8';
+                    ctx.beginPath();
+                    ctx.roundRect(player.x + (player.facing === 1 ? 18 : 10), player.y + 10, 18, 11, 4);
+                    ctx.fill();
+                    // Gravity Spring Boots
+                    ctx.fillStyle = '#CBD5E1';
+                    ctx.fillRect(player.x + 10, player.y + 46, 10, 8);
+                    ctx.fillRect(player.x + 26, player.y + 46, 10, 8);
+                } else {
+                    // O-Bit (Orbit Bot): Floating Satellite Robot with Ring
+                    ctx.fillStyle = '#E2E8F0';
+                    ctx.beginPath();
+                    ctx.arc(player.x + 23, player.y + 27, 17, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#0284C7';
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                    // Digital Face
+                    ctx.fillStyle = '#0F172A';
+                    ctx.beginPath();
+                    ctx.roundRect(player.x + 13, player.y + 20, 20, 11, 4);
+                    ctx.fill();
+                    // Glowing Eyes
+                    ctx.fillStyle = '#22D3EE';
+                    ctx.beginPath();
+                    ctx.arc(player.x + 19, player.y + 25, 2.5, 0, Math.PI * 2);
+                    ctx.arc(player.x + 27, player.y + 25, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    // Planetary Ring
+                    ctx.strokeStyle = '#FACC15';
+                    ctx.lineWidth = 3.5;
+                    ctx.beginPath();
+                    ctx.ellipse(player.x + 23, player.y + 29, 25, 6, -0.2, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+            }
+
+            // 10. Draw Sparkle Particles
+            for (const pt of particles) {
+                ctx.fillStyle = pt.color;
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.restore();
+        }
+
+        function gameLoop() {
+            if (!gameRunning) return;
+            if (!gamePaused) {
+                updateGamePhysics();
+            }
+            renderGameScene();
+            animFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        /* -----------------------------------------------------------------
+           8. KONTROL KEYBOARD & LAYAR SENTUH / SMARTBOARD
+        ----------------------------------------------------------------- */
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = true;
+            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = true;
+            if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') {
+                keys.jump = true;
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = false;
+            if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
+            if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') {
+                keys.jump = false;
+            }
+        });
+
+        function bindTouchButton(btnId, keyProp) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            const startHandler = (e) => { e.preventDefault(); keys[keyProp] = true; };
+            const endHandler = (e) => { e.preventDefault(); keys[keyProp] = false; };
+            btn.addEventListener('mousedown', startHandler);
+            btn.addEventListener('mouseup', endHandler);
+            btn.addEventListener('mouseleave', endHandler);
+            btn.addEventListener('touchstart', startHandler, { passive: false });
+            btn.addEventListener('touchend', endHandler, { passive: false });
+            btn.addEventListener('touchcancel', endHandler, { passive: false });
+        }
+
+        bindTouchButton('btnTouchLeft', 'left');
+        bindTouchButton('btnTouchRight', 'right');
+        bindTouchButton('btnTouchJump', 'jump');
+
+        /* -----------------------------------------------------------------
+           9. PAUSE, RESTART & LAYAR AKHIR (SERTIFIKAT & RAPOR EVALUASI)
+        ----------------------------------------------------------------- */
+        function togglePauseGame() {
+            if (!gameRunning) return;
+            gamePaused = !gamePaused;
+            const modal = document.getElementById('pauseModal');
+            if (gamePaused) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function restartCurrentLevel() {
+            document.getElementById('pauseModal').classList.add('hidden');
+            document.getElementById('resultModal').classList.add('hidden');
+            startGame();
+        }
+
+        function quitToLobby() {
+            gameRunning = false;
+            if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('pauseModal').classList.add('hidden');
+            document.getElementById('resultModal').classList.add('hidden');
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('lobbyScreen').classList.remove('hidden');
+        }
+
+        function finishGameSession(isVictory) {
+            gameRunning = false;
+            if (timerInterval) clearInterval(timerInterval);
+
+            if (isVictory) {
+                score += 150; // Completion bonus
+                playSound('win');
+            } else {
+                playSound('wrong');
+            }
+
+            // Calculate quiz evaluation stats
+            const totalAnswered = answeredQuizzes.length;
+            const correctCount = answeredQuizzes.filter(q => q.isCorrect).length;
+            const evalPct = Math.round((correctCount / 4) * 100);
+
+            document.getElementById('resultStatusBanner').textContent = isVictory
+                ? "🚀 MISI KOMANDO ORBIT BERHASIL!"
+                : "💫 MISI SELESAI — TETAP SEMANGAT BELAJAR!";
+
+            // Stars based on percentage
+            let stars = "⭐";
+            if (evalPct >= 75) stars = "⭐⭐⭐";
+            else if (evalPct >= 50) stars = "⭐⭐";
+            document.getElementById('resultStarsDisplay').textContent = stars;
+
+            // Populate Report Cards
+            document.getElementById('repStudentName').textContent = studentName;
+            document.getElementById('repStudentClass').textContent = studentClass;
+            document.getElementById('repScore').textContent = `${score} Poin`;
+            document.getElementById('repCoins').textContent = `🪙 ${coins} Koin Kosmik`;
+            document.getElementById('repAccuracy').textContent = `${evalPct}%`;
+            document.getElementById('repCorrectCount').textContent = `Benar ${correctCount} dari 4 Blok Kuis (${totalAnswered} Dijawab)`;
+            document.getElementById('repTopicTitle').textContent = TOPIC_INFO[selectedTopic].title;
+
+            const levelNames = {
+                1: "Level 1: Lembah Bulan",
+                2: "Level 2: Langit Nebula",
+                3: "Level 3: Kastil Matahari"
+            };
+            document.getElementById('repLevelTitle').textContent = levelNames[selectedLevel];
+
+            // Automatic Feedback Message based on score range
+            const fbMsg = document.getElementById('repFeedbackMessage');
+            if (evalPct === 100) {
+                fbMsg.textContent = `Sempurna sekali, ${studentName}! Kamu berhasil menjawab seluruh Blok Kuis dengan benar (100%). Pemahamanmu mengenai ${TOPIC_INFO[selectedTopic].title} sangat luar biasa!`;
+            } else if (evalPct >= 75) {
+                fbMsg.textContent = `Hebat, ${studentName}! Nilai evaluasimu (${evalPct}%) menunjukkan kamu sudah memahami konsep dasar Sistem Tata Surya, Rotasi, dan Revolusi Bumi dengan sangat baik.`;
+            } else if (evalPct >= 50) {
+                fbMsg.textContent = `Bagus, ${studentName}! Kamu memperoleh nilai ${evalPct}%. Mari baca kembali pembahasan soal di bawah ini agar kamu semakin mahir di petualangan berikutnya!`;
+            } else {
+                fbMsg.textContent = `Jangan menyerah, ${studentName}! Pastikan kamu menyundul ke-4 Blok Kuis [?] di sepanjang level dan membaca ringkasan materi IPAS dengan teliti sebelum meluncur kembali.`;
+            }
+
+            // Populate Question Breakdown List
+            const detailsContainer = document.getElementById('repQuestionDetailsList');
+            detailsContainer.innerHTML = '';
+
+            if (answeredQuizzes.length === 0) {
+                detailsContainer.innerHTML = `
+                    <div class="bg-amber-100 border-2 border-amber-500 rounded-xl p-4 text-xs font-extrabold text-amber-950">
+                        Kamu belum menyundul Blok Kuis [?] pada sesi ini. Coba main lagi dan sundul 4 Blok [?] berwarna kuning untuk menguji pemahamanmu!
+                    </div>
+                `;
+            } else {
+                answeredQuizzes.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = `rounded-2xl p-4 border-2 ${item.isCorrect ? 'bg-emerald-50 border-emerald-600' : 'bg-red-50 border-red-600'}`;
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between gap-2 mb-1.5">
+                            <span class="text-xs font-extrabold uppercase tracking-wider ${item.isCorrect ? 'text-emerald-800' : 'text-red-800'}">
+                                Soal #${index + 1} — ${item.isCorrect ? '✅ JAWABAN BENAR' : '❌ JAWABAN KURANG TEPAT'}
+                            </span>
+                        </div>
+                        <p class="text-sm font-extrabold text-slate-900 mb-2">${item.q}</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs mb-2">
+                            <div class="bg-white px-3 py-1.5 rounded-lg border-2 border-slate-300">
+                                <span class="text-slate-500 font-bold">Jawabanmu:</span> 
+                                <b class="${item.isCorrect ? 'text-emerald-700' : 'text-red-700'}">${item.options[item.chosenIndex]}</b>
+                            </div>
+                            <div class="bg-white px-3 py-1.5 rounded-lg border-2 border-slate-300">
+                                <span class="text-slate-500 font-bold">Kunci Jawaban:</span> 
+                                <b class="text-amber-700">${item.options[item.correctIndex]}</b>
+                            </div>
+                        </div>
+                        <p class="text-xs font-bold text-slate-800 bg-amber-100/80 p-2.5 rounded-xl border border-amber-400">
+                            <b class="text-blue-800">Pembahasan:</b> ${item.explanation}
+                        </p>
+                    `;
+                    detailsContainer.appendChild(card);
+                });
+            }
+
+            document.getElementById('resultModal').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
